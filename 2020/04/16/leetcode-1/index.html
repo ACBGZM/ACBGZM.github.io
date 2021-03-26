@@ -1,106 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>leetcode记录 (1) | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="算法太差了，打算学习一下。leetcode一点点做，先从简单题开始，重点放在熟悉STL用法。">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="zm"><meta name="copyright" content="zm"><meta name="generator" content="Hexo 5.4.0"><meta name="theme" content="hexo-theme-yun"><title>leetcode记录 (1) | 临时个人主页</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.24/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_ed8vp4atwoj.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="shortcut icon" type="image/svg+xml" href="/favicon.ico"><link rel="mask-icon" href="/favicon.ico" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"acbgzm.github.io","root":"/","title":"miu'sblog","version":"1.5.1","mode":"auto","copycode":true,"page":{"isPost":true},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="算法太差了，打算学习一下。leetcode一点点做，先从简单题开始，重点放在熟悉STL用法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode记录 (1)">
-<meta property="og:url" content="http://example.com/2020/04/16/leetcode-1/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="http://acbgzm.github.io/2020/04/16/leetcode-1/index.html">
+<meta property="og:site_name" content="临时个人主页">
 <meta property="og:description" content="算法太差了，打算学习一下。leetcode一点点做，先从简单题开始，重点放在熟悉STL用法。">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-16T14:45:21.000Z">
-<meta property="article:modified_time" content="2021-01-17T16:21:49.042Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:modified_time" content="2021-03-26T10:04:23.216Z">
+<meta property="article:author" content="zm">
 <meta property="article:tag" content="算法">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-leetcode-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/04/16/leetcode-1/" class="article-date">
-  <time class="dt-published" datetime="2020-04-16T14:45:21.000Z" itemprop="datePublished">2020-04-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      leetcode记录 (1)
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>算法太差了，打算学习一下。leetcode一点点做，先从简单题开始，重点放在熟悉STL用法。</p>
+<meta name="twitter:card" content="summary"><script src="/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="zm"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="zm"><span class="site-author-status" title="永远相信美好的事情即将发生">👻</span></a><div class="site-author-name"><a href="/about/">zm</a></div><a class="site-name" href="/about/site.html">临时个人主页</a><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">2</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">6</span></a></div><a class="site-state-item hty-icon-button" href="/lab" title="lab"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/ACBGZM" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://weibo.com/u/6332243869" title="微博" target="_blank" style="color:#E6162D"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-weibo-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/10388034" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%9D%A2%E8%AF%95%E9%A2%9858-II-%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">1 面试题58 - II. 左旋转字符串  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-LCP-1-%E7%8C%9C%E6%95%B0%E5%AD%97-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">2 LCP 1. 猜数字  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1342-%E5%B0%86%E6%95%B0%E5%AD%97%E5%8F%98%E6%88%90-0-%E7%9A%84%E6%93%8D%E4%BD%9C%E6%AC%A1%E6%95%B0-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">3 1342. 将数字变成 0 的操作次数  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1365-%E6%9C%89%E5%A4%9A%E5%B0%91%E5%B0%8F%E4%BA%8E%E5%BD%93%E5%89%8D%E6%95%B0%E5%AD%97%E7%9A%84%E6%95%B0%E5%AD%97-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">4 1365. 有多少小于当前数字的数字  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1281-%E6%95%B4%E6%95%B0%E7%9A%84%E5%90%84%E4%BD%8D%E7%A7%AF%E5%92%8C%E4%B9%8B%E5%B7%AE-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">5 1281. 整数的各位积和之差    难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E9%A2%98%E7%9B%AE%E5%90%8D%E7%A7%B0-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">6 题目名称  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-771-%E5%AE%9D%E7%9F%B3%E4%B8%8E%E7%9F%B3%E5%A4%B4-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">7 771. 宝石与石头  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1389-%E6%8C%89%E6%97%A2%E5%AE%9A%E9%A1%BA%E5%BA%8F%E5%88%9B%E5%BB%BA%E7%9B%AE%E6%A0%87%E6%95%B0%E7%BB%84-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">8 1389. 按既定顺序创建目标数组  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1108-IP-%E5%9C%B0%E5%9D%80%E6%97%A0%E6%95%88%E5%8C%96-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">9 1108. IP 地址无效化  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1313-%E8%A7%A3%E5%8E%8B%E7%BC%A9%E7%BC%96%E7%A0%81%E5%88%97%E8%A1%A8-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">10 1313. 解压缩编码列表  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-1266-%E8%AE%BF%E9%97%AE%E6%89%80%E6%9C%89%E7%82%B9%E7%9A%84%E6%9C%80%E5%B0%8F%E6%97%B6%E9%97%B4-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">11 1266. 访问所有点的最小时间  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-1290-%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%93%BE%E8%A1%A8%E8%BD%AC%E6%95%B4%E6%95%B0-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">12 1290. 二进制链表转整数  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-237-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">13 237. 删除链表中的节点  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E9%9D%A2%E8%AF%95%E9%A2%98-02-03-%E5%88%A0%E9%99%A4%E4%B8%AD%E9%97%B4%E8%8A%82%E7%82%B9-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">14 面试题 02.03. 删除中间节点  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E9%9D%A2%E8%AF%95%E9%A2%98-02-02-%E8%BF%94%E5%9B%9E%E5%80%92%E6%95%B0%E7%AC%AC-k-%E4%B8%AA%E8%8A%82%E7%82%B9-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">15 面试题 02.02. 返回倒数第 k 个节点  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E9%9D%A2%E8%AF%95%E9%A2%9855-I-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">16 面试题55 - I. 二叉树的深度  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-%E9%9D%A2%E8%AF%95%E9%A2%9817-%E6%89%93%E5%8D%B0%E4%BB%8E1%E5%88%B0%E6%9C%80%E5%A4%A7%E7%9A%84n%E4%BD%8D%E6%95%B0-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">17 面试题17. 打印从1到最大的n位数  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-709-%E8%BD%AC%E6%8D%A2%E6%88%90%E5%B0%8F%E5%86%99%E5%AD%97%E6%AF%8D-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">18 709. 转换成小写字母  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-1323-6-%E5%92%8C-9-%E7%BB%84%E6%88%90%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E5%AD%97-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">19 1323. 6 和 9 组成的最大数字  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-1323-6-%E5%92%8C-9-%E7%BB%84%E6%88%90%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E5%AD%97-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">20 1323. 6 和 9 组成的最大数字  难度：简单</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="http://acbgzm.github.io/2020/04/16/leetcode-1/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="zm"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="临时个人主页"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">leetcode记录 (1)</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-04-16 22:45:21" itemprop="dateCreated datePublished" datetime="2020-04-16T22:45:21+08:00">2020-04-16</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-03-26 18:04:23" itemprop="dateModified" datetime="2021-03-26T18:04:23+08:00">2021-03-26</time></div><span class="post-busuanzi"><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读次数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-eye-line"></use></svg> <span id="busuanzi_value_page_pv"></span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category" href="/categories/%E5%AD%A6%E4%B9%A0/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">学习</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag" href="/tags/%E7%AE%97%E6%B3%95/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">算法</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><p>算法太差了，打算学习一下。leetcode一点点做，先从简单题开始，重点放在熟悉STL用法。</p>
 <span id="more"></span>
 
 <p>需要回看的题目：<a href="#4-1365-%E6%9C%89%E5%A4%9A%E5%B0%91%E5%B0%8F%E4%BA%8E%E5%BD%93%E5%89%8D%E6%95%B0%E5%AD%97%E7%9A%84%E6%95%B0%E5%AD%97-httpshttpsleetcode-cncomproblemshow-many-numbers-are-smaller-than-the-current-number%E9%9A%BE%E5%BA%A6%E7%AE%80%E5%8D%95">4</a>  <a href="#16-%E9%9D%A2%E8%AF%95%E9%A2%9855---i-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6-httpsleetcode-cncomproblemser-cha-shu-de-shen-du-lcof%E9%9A%BE%E5%BA%A6%E7%AE%80%E5%8D%95">16</a>  <a href="#20-1323-6-%E5%92%8C-9-%E7%BB%84%E6%88%90%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E5%AD%97-httpsleetcode-cncomproblemsmaximum-69-number%E9%9A%BE%E5%BA%A6%E7%AE%80%E5%8D%95">20</a></p>
@@ -108,31 +25,91 @@
 <p>写完更新：记录了20题，虽然leetcode都标为简单题，但我感到难度差异很大。练手的目的应该是达到了，但记录起来效率比较低。以后只记录有必要回顾的题，每篇记录10题。</p>
 <hr>
 <h3 id="1-面试题58-II-左旋转字符串-难度：简单"><a href="#1-面试题58-II-左旋转字符串-难度：简单" class="headerlink" title="1 面试题58 - II. 左旋转字符串  难度：简单"></a>1 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/">面试题58 - II. 左旋转字符串  </a>难度：简单</h3><p>我的土味解法：三次reverse</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(string&amp; s,<span class="keyword">int</span> begin, <span class="keyword">int</span> length)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length/<span class="number">2</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">char</span> temp=s[begin+i];</span><br><span class="line">            s[begin+i]=s[begin+length<span class="number">-1</span>-i];</span><br><span class="line">            s[begin+length<span class="number">-1</span>-i]=temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">string <span class="title">reverseLeftWords</span><span class="params">(string s, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> l=s.<span class="built_in">length</span>();</span><br><span class="line">        <span class="built_in">reverse</span>(s,<span class="number">0</span>,l);</span><br><span class="line">        <span class="built_in">reverse</span>(s,<span class="number">0</span>,l-n);</span><br><span class="line">        <span class="built_in">reverse</span>(s,l-n,n);</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    void reverse(string&amp; s,int begin, int length)&#123;
+        for(int i&#x3D;0;i&lt;length&#x2F;2;i++)&#123;
+            char temp&#x3D;s[begin+i];
+            s[begin+i]&#x3D;s[begin+length-1-i];
+            s[begin+length-1-i]&#x3D;temp;
+        &#125;
+    &#125;
+    string reverseLeftWords(string s, int n) &#123;
+        int l&#x3D;s.length();
+        reverse(s,0,l);
+        reverse(s,0,l-n);
+        reverse(s,l-n,n);
+        return s;
+    &#125;
+&#125;;</code></pre>
 
 <blockquote>
 <p>执行用时 :8 ms, 在所有 C++ 提交中击败了64.43% 的用户<br>内存消耗 :7.1 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <p><strong><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/solution/yi-xing-jiu-gou-liao-by-yzwz-2/">网友高级解法（作者：yzwz）</a></strong></p>
 <p>一行代码即可，把两个字符串拼起来，中间截取一部分</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">reverseLeftWords</span><span class="params">(string s, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (s+s).<span class="built_in">substr</span>(n,s.<span class="built_in">size</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    string reverseLeftWords(string s, int n) &#123;
+        return (s+s).substr(n,s.size());
+    &#125;
+&#125;;</code></pre>
 <hr>
 <h3 id="2-LCP-1-猜数字-难度：简单"><a href="#2-LCP-1-猜数字-难度：简单" class="headerlink" title="2 LCP 1. 猜数字  难度：简单"></a>2 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/guess-numbers/">LCP 1. 猜数字  </a>难度：简单</h3><p>也太简单了，怎么跟平时在leetcode看到的简单题不一样。。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">game</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; guess, vector&lt;<span class="keyword">int</span>&gt;&amp; answer)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(guess[i]==answer[i]) count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int game(vector&lt;int&gt;&amp; guess, vector&lt;int&gt;&amp; answer) &#123;
+        int count&#x3D;0;
+        for(int i&#x3D;0;i&lt;3;i++)&#123;
+            if(guess[i]&#x3D;&#x3D;answer[i]) count++;
+        &#125;
+        return count;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :0 ms, 在所有 C++ 提交中击败了100.00% 的用户<br>内存消耗 :6.2 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <p><strong><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/guess-numbers/solution/cyi-xing-dai-ma-yi-huo-shuang-bai-by-lucky_dog/">网友解法（作者：Lucky_dog）</a></strong></p>
 <p>一行异或。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">game</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; guess, vector&lt;<span class="keyword">int</span>&gt;&amp; answer)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> !(guess[<span class="number">0</span>]^answer[<span class="number">0</span>]) + !(guess[<span class="number">1</span>]^answer[<span class="number">1</span>]) + !(guess[<span class="number">2</span>]^answer[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int game(vector&lt;int&gt;&amp; guess, vector&lt;int&gt;&amp; answer) &#123;
+        return !(guess[0]^answer[0]) + !(guess[1]^answer[1]) + !(guess[2]^answer[2]);
+    &#125;
+&#125;;</code></pre>
 <hr>
 <h3 id="3-1342-将数字变成-0-的操作次数-难度：简单"><a href="#3-1342-将数字变成-0-的操作次数-难度：简单" class="headerlink" title="3 1342. 将数字变成 0 的操作次数  难度：简单"></a>3 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-steps-to-reduce-a-number-to-zero/">1342. 将数字变成 0 的操作次数  </a>难度：简单</h3><p>很简单。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numberOfSteps</span> <span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(num)&#123;</span><br><span class="line">            <span class="keyword">if</span>(num%<span class="number">2</span>==<span class="number">0</span>) num/=<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">else</span> num--;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int numberOfSteps (int num) &#123;
+        int count&#x3D;0;
+        while(num)&#123;
+            if(num%2&#x3D;&#x3D;0) num&#x2F;&#x3D;2;
+            else num--;
+            count++;
+        &#125;
+        return count;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :0 ms, 在所有 C++ 提交中击败了100.00% 的用户<br>内存消耗 :6 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
-<h3 id="4-1365-有多少小于当前数字的数字-难度：简单"><a href="#4-1365-有多少小于当前数字的数字-难度：简单" class="headerlink" title="4 1365. 有多少小于当前数字的数字  难度：简单"></a>4 <a href="%5Bhttps://%5D(https://leetcode-cn.com/problems/how-many-numbers-are-smaller-than-the-current-number/)">1365. 有多少小于当前数字的数字  </a>难度：简单</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">smallerNumbersThanCurrent</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; result;</span><br><span class="line">        <span class="keyword">int</span> length=nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;length;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j]&lt;nums[i]) count++;</span><br><span class="line">            &#125;</span><br><span class="line">            result.<span class="built_in">push_back</span>(count);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="4-1365-有多少小于当前数字的数字-难度：简单"><a href="#4-1365-有多少小于当前数字的数字-难度：简单" class="headerlink" title="4 1365. 有多少小于当前数字的数字  难度：简单"></a>4 <a href="%5Bhttps://%5D(https://leetcode-cn.com/problems/how-many-numbers-are-smaller-than-the-current-number/)">1365. 有多少小于当前数字的数字  </a>难度：简单</h3><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    vector&lt;int&gt; smallerNumbersThanCurrent(vector&lt;int&gt;&amp; nums) &#123;
+        vector&lt;int&gt; result;
+        int length&#x3D;nums.size();
+        for(int i&#x3D;0;i&lt;length;i++)&#123;
+            int count&#x3D;0;
+            for(int j&#x3D;0;j&lt;length;j++)&#123;
+                if(nums[j]&lt;nums[i]) count++;
+            &#125;
+            result.push_back(count);
+        &#125;
+        return result;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :52 ms, 在所有 C++ 提交中击败了13.57% 的用户<br>内存消耗 :7 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
@@ -141,28 +118,116 @@
 <li>学到了vector定义时可以用参数<code>vector&lt;int&gt; num(nums.size(),0);</code>跟数组差不多。</li>
 <li>我忽略了题目条件：所有数不大于100。遍历第一遍存放每个数出现次数；第二遍从小到大累加即可。</li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">smallerNumbersThanCurrent</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> arr[<span class="number">101</span>];</span><br><span class="line">        <span class="built_in">memset</span>(arr, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(arr));</span><br><span class="line">        <span class="comment">/* 初始化计数桶 */</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> i : nums) &#123;</span><br><span class="line">            arr[i] ++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* 累加处理计数桶，使得 arr[i] 表示比 i 小的数字的个数 */</span></span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">100</span>; i ++) &#123;</span><br><span class="line">            <span class="keyword">int</span> temp = arr[i];</span><br><span class="line">            arr[i] = cnt;</span><br><span class="line">            cnt += temp;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; ret;</span><br><span class="line">        <span class="comment">/* 遍历 nums，取出对应桶 arr[i] 里的结果即可 */</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i : nums) &#123;</span><br><span class="line">            ret.<span class="built_in">push_back</span>(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    vector&lt;int&gt; smallerNumbersThanCurrent(vector&lt;int&gt;&amp; nums) &#123;
+        int arr[101];
+        memset(arr, 0, sizeof(arr));
+        &#x2F;* 初始化计数桶 *&#x2F;
+        for (auto i : nums) &#123;
+            arr[i] ++;
+        &#125;
+        &#x2F;* 累加处理计数桶，使得 arr[i] 表示比 i 小的数字的个数 *&#x2F;
+        int cnt &#x3D; 0;
+        for (int i &#x3D; 0; i &lt;&#x3D; 100; i ++) &#123;
+            int temp &#x3D; arr[i];
+            arr[i] &#x3D; cnt;
+            cnt +&#x3D; temp;
+        &#125;
+        vector&lt;int&gt; ret;
+        &#x2F;* 遍历 nums，取出对应桶 arr[i] 里的结果即可 *&#x2F;
+        for (int i : nums) &#123;
+            ret.push_back(arr[i]);
+        &#125;
+        return ret;
+    &#125;
+&#125;;</code></pre>
 
 <p><strong>改进我的解法</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">smallerNumbersThanCurrent</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; result;</span><br><span class="line">        <span class="keyword">int</span> a[<span class="number">102</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            a[nums[i]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">101</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> temp = a[i];</span><br><span class="line">            a[i] = count;   <span class="comment">/*严格小于*/</span></span><br><span class="line">            count += temp;  <span class="comment">/*把等于的加上*/</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            result.<span class="built_in">push_back</span>(a[nums[i]]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    vector&lt;int&gt; smallerNumbersThanCurrent(vector&lt;int&gt;&amp; nums) &#123;
+        vector&lt;int&gt; result;
+        int a[102]&#x3D;&#123;0&#125;;
+        for(int i&#x3D;0;i&lt;nums.size();i++)&#123;
+            a[nums[i]]++;
+        &#125;
+        int count&#x3D;0;
+        for(int i&#x3D;0;i&lt;101;i++)&#123;
+            int temp &#x3D; a[i];
+            a[i] &#x3D; count;   &#x2F;*严格小于*&#x2F;
+            count +&#x3D; temp;  &#x2F;*把等于的加上*&#x2F;
+        &#125;
+
+        for(int i&#x3D;0;i&lt;nums.size();i++)&#123;
+            result.push_back(a[nums[i]]);
+        &#125;
+        
+        return result;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :8 ms, 在所有 C++ 提交中击败了88.68% 的用户<br>内存消耗 :7.3 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="5-1281-整数的各位积和之差-难度：简单"><a href="#5-1281-整数的各位积和之差-难度：简单" class="headerlink" title="5 1281. 整数的各位积和之差    难度：简单"></a>5 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subtract-the-product-and-sum-of-digits-of-an-integer/">1281. 整数的各位积和之差    </a>难度：简单</h3><p>简单模拟</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">subtractProductAndSum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a=<span class="number">1</span>,b=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(n)&#123;</span><br><span class="line">            <span class="keyword">int</span> t=n%<span class="number">10</span>;</span><br><span class="line">            a*=t;</span><br><span class="line">            b+=t;</span><br><span class="line">            n/=<span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> a-b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int subtractProductAndSum(int n) &#123;
+        int a&#x3D;1,b&#x3D;0;
+        while(n)&#123;
+            int t&#x3D;n%10;
+            a*&#x3D;t;
+            b+&#x3D;t;
+            n&#x2F;&#x3D;10;
+        &#125;
+        return a-b;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :4 ms, 在所有 C++ 提交中击败了53.31% 的用户<br>内存消耗 :5.9 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="6-题目名称-难度：简单"><a href="#6-题目名称-难度：简单" class="headerlink" title="6 题目名称  难度：简单"></a>6 <a href="https://">题目名称  </a>难度：简单</h3><p>依然是简单模拟，不用stl会快一点。<br>Dev C++编译to_string()出错，原因是不支持C++ 11的一些特性。需要<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43492703/article/details/91042595">设置环境</a>。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findNumbers</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">        string s;</span><br><span class="line">        <span class="keyword">for</span>(vector&lt;<span class="keyword">int</span>&gt;::iterator it=nums.<span class="built_in">begin</span>();it!=nums.<span class="built_in">end</span>();it++)&#123;</span><br><span class="line">            s = <span class="built_in">to_string</span>(*it);</span><br><span class="line">            <span class="keyword">if</span>(s.<span class="built_in">size</span>()%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int findNumbers(vector&lt;int&gt;&amp; nums) &#123;
+        int count&#x3D;0;
+        string s;
+        for(vector&lt;int&gt;::iterator it&#x3D;nums.begin();it!&#x3D;nums.end();it++)&#123;
+            s &#x3D; to_string(*it);
+            if(s.size()%2&#x3D;&#x3D;0)&#123;
+                count++;
+            &#125;
+        &#125;
+        return count;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :16 ms, 在所有 C++ 提交中击败了16.81% 的用户<br>内存消耗 :9.7 MB, 在所有 C++ 提交中击败了5.14%的用户</p>
 </blockquote>
 <hr>
 <h3 id="7-771-宝石与石头-难度：简单"><a href="#7-771-宝石与石头-难度：简单" class="headerlink" title="7 771. 宝石与石头  难度：简单"></a>7 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jewels-and-stones/">771. 宝石与石头  </a>难度：简单</h3><p>可以直接二重循环，也可以用stl。我用的hash。其实直接string.find(c)就可以。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numJewelsInStones</span><span class="params">(string J, string S)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">bool</span> hash[<span class="number">52</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;J.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(J[i]&gt;=<span class="string">&#x27;A&#x27;</span>&amp;&amp;J[i]&lt;=<span class="string">&#x27;Z&#x27;</span>) hash[J[i]-<span class="string">&#x27;A&#x27;</span>]=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(J[i]&gt;=<span class="string">&#x27;a&#x27;</span>&amp;&amp;J[i]&lt;=<span class="string">&#x27;z&#x27;</span>) hash[J[i]-<span class="string">&#x27;a&#x27;</span>+<span class="number">26</span>]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;S.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(S[i]&gt;=<span class="string">&#x27;A&#x27;</span>&amp;&amp;S[i]&lt;=<span class="string">&#x27;Z&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(hash[S[i]-<span class="string">&#x27;A&#x27;</span>]) count++;</span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(S[i]&gt;=<span class="string">&#x27;a&#x27;</span>&amp;&amp;S[i]&lt;=<span class="string">&#x27;z&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(hash[S[i]-<span class="string">&#x27;a&#x27;</span>+<span class="number">26</span>]) count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int numJewelsInStones(string J, string S) &#123;
+        int count&#x3D;0;
+        bool hash[52]&#x3D;&#123;0&#125;;
+        for(int i&#x3D;0;i&lt;J.size();i++)&#123;
+            if(J[i]&gt;&#x3D;&#39;A&#39;&amp;&amp;J[i]&lt;&#x3D;&#39;Z&#39;) hash[J[i]-&#39;A&#39;]&#x3D;1;
+            else if(J[i]&gt;&#x3D;&#39;a&#39;&amp;&amp;J[i]&lt;&#x3D;&#39;z&#39;) hash[J[i]-&#39;a&#39;+26]&#x3D;1;
+        &#125;
+        for(int i&#x3D;0;i&lt;S.size();i++)&#123;
+            if(S[i]&gt;&#x3D;&#39;A&#39;&amp;&amp;S[i]&lt;&#x3D;&#39;Z&#39;)&#123;
+                if(hash[S[i]-&#39;A&#39;]) count++;
+            &#125; 
+            else if(S[i]&gt;&#x3D;&#39;a&#39;&amp;&amp;S[i]&lt;&#x3D;&#39;z&#39;)&#123;
+                if(hash[S[i]-&#39;a&#39;+26]) count++;
+            &#125;
+        &#125;
+        return count;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :4 ms, 在所有 C++ 提交中击败了76.45% 的用户<br>内存消耗 :6.3 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
@@ -170,239 +235,245 @@
 <p>关于上面提到的各种容器，<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jewels-and-stones/solution/shu-zu-he-unordered_mapde-bi-jiao-by-jacder/">可以看看这篇解法。</a>代码就不贴了。</p>
 <hr>
 <h3 id="8-1389-按既定顺序创建目标数组-难度：简单"><a href="#8-1389-按既定顺序创建目标数组-难度：简单" class="headerlink" title="8 1389. 按既定顺序创建目标数组  难度：简单"></a>8 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/create-target-array-in-the-given-order/">1389. 按既定顺序创建目标数组  </a>难度：简单</h3><p>注意vector的insert()用法，<strong>第一个参数是迭代器，第二个参数是要存储的元素值。</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">createTargetArray</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, vector&lt;<span class="keyword">int</span>&gt;&amp; index)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; target;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            target.<span class="built_in">insert</span>(target.<span class="built_in">begin</span>()+index[i], nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    vector&lt;int&gt; createTargetArray(vector&lt;int&gt;&amp; nums, vector&lt;int&gt;&amp; index) &#123;
+        vector&lt;int&gt; target;
+        for(int i&#x3D;0;i&lt;nums.size();i++)&#123;
+            target.insert(target.begin()+index[i], nums[i]);
+        &#125;
+        return target;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :4 ms, 在所有 C++ 提交中击败了66.73% 的用户<br>内存消耗 :8.5 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="9-1108-IP-地址无效化-难度：简单"><a href="#9-1108-IP-地址无效化-难度：简单" class="headerlink" title="9 1108. IP 地址无效化  难度：简单"></a>9 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/defanging-an-ip-address/">1108. IP 地址无效化  </a>难度：简单</h3><p>很简单</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">defangIPaddr</span><span class="params">(string address)</span> </span>&#123;</span><br><span class="line">        string s;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;address.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(address[i]==<span class="string">&#x27;.&#x27;</span>) s+=<span class="string">&quot;[.]&quot;</span>;</span><br><span class="line">            <span class="keyword">else</span> s+=address[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    string defangIPaddr(string address) &#123;
+        string s;
+        for(int i&#x3D;0;i&lt;address.size();i++)&#123;
+            if(address[i]&#x3D;&#x3D;&#39;.&#39;) s+&#x3D;&quot;[.]&quot;;
+            else s+&#x3D;address[i];
+        &#125;
+        return s;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :0 ms, 在所有 C++ 提交中击败了100.00% 的用户<br>内存消耗 :6 MB, 在所有 C++ 提交中击败了100.00%的用户 </p>
 </blockquote>
 <hr>
 <h3 id="10-1313-解压缩编码列表-难度：简单"><a href="#10-1313-解压缩编码列表-难度：简单" class="headerlink" title="10 1313. 解压缩编码列表  难度：简单"></a>10 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/decompress-run-length-encoded-list/">1313. 解压缩编码列表  </a>难度：简单</h3><p>很简单</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">decompressRLElist</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span></span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; vec;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;nums.<span class="built_in">size</span>();i+=<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;nums[i<span class="number">-1</span>];j++) vec.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> vec;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    vector&lt;int&gt; decompressRLElist(vector&lt;int&gt;&amp; nums)&#123;
+        vector&lt;int&gt; vec;
+        for(int i&#x3D;1;i&lt;nums.size();i+&#x3D;2)&#123;
+            for(int j&#x3D;0;j&lt;nums[i-1];j++) vec.push_back(nums[i]);
+        &#125;
+        return vec;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :8 ms, 在所有 C++ 提交中击败了65.87% 的用户<br>内存消耗 :10.1 MB, 在所有 C++ 提交中击败了100.00%的用户 </p>
 </blockquote>
 <p>看了一下题解，可以使用vector的insert()函数，参数分别是：位置，个数，值</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(vector&lt;<span class="keyword">int</span>&gt;::iterator iter = nums.<span class="built_in">begin</span>(); iter != nums.<span class="built_in">end</span>(); iter += <span class="number">2</span>) &#123;</span><br><span class="line">    vec.<span class="built_in">insert</span>(vec.<span class="built_in">end</span>(), *it, *(it + <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">for(vector&lt;int&gt;::iterator iter &#x3D; nums.begin(); iter !&#x3D; nums.end(); iter +&#x3D; 2) &#123;
+    vec.insert(vec.end(), *it, *(it + 1));
+&#125;</code></pre>
 
 <hr>
 <h3 id="11-1266-访问所有点的最小时间-难度：简单"><a href="#11-1266-访问所有点的最小时间-难度：简单" class="headerlink" title="11 1266. 访问所有点的最小时间  难度：简单"></a>11 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-time-visiting-all-points/">1266. 访问所有点的最小时间  </a>难度：简单</h3><p>数学题，我的想法是找到相差最大的维度即可。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minTimeToVisitAllPoints</span><span class="params">(vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt;&amp; points)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;points.<span class="built_in">size</span>()<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> a=<span class="built_in">abs</span>(points[i][<span class="number">0</span>]-points[i+<span class="number">1</span>][<span class="number">0</span>]);</span><br><span class="line">            <span class="keyword">int</span> b=<span class="built_in">abs</span>(points[i][<span class="number">1</span>]-points[i+<span class="number">1</span>][<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">int</span> c=a&gt;b?a:b;</span><br><span class="line">            t+=c;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int minTimeToVisitAllPoints(vector&lt;vector&lt;int&gt;&gt;&amp; points) &#123;
+        int t&#x3D;0;
+        for(int i&#x3D;0;i&lt;points.size()-1;i++)&#123;
+            int a&#x3D;abs(points[i][0]-points[i+1][0]);
+            int b&#x3D;abs(points[i][1]-points[i+1][1]);
+            int c&#x3D;a&gt;b?a:b;
+            t+&#x3D;c;
+        &#125;
+        return t;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :8 ms, 在所有 C++ 提交中击败了89.64% 的用户<br>内存消耗 :9.6 MB, 在所有 C++ 提交中击败了100.00%的用户 </p>
 </blockquote>
 <hr>
 <h3 id="12-1290-二进制链表转整数-难度：简单"><a href="#12-1290-二进制链表转整数-难度：简单" class="headerlink" title="12 1290. 二进制链表转整数  难度：简单"></a>12 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/convert-binary-number-in-a-linked-list-to-integer/">1290. 二进制链表转整数  </a>难度：简单</h3><p>基本的链表操作题，进制转换题目往权值考虑。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getDecimalValue</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">        ListNode* p=head;</span><br><span class="line">        <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            sum=sum*<span class="number">2</span>+p-&gt;val;</span><br><span class="line">            p=p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int getDecimalValue(ListNode* head) &#123;
+        int sum&#x3D;0;
+        ListNode* p&#x3D;head;
+        while(p!&#x3D;NULL)&#123;
+            sum&#x3D;sum*2+p-&gt;val;
+            p&#x3D;p-&gt;next;
+        &#125;
+        return sum;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :4 ms, 在所有 C++ 提交中击败了68.52% 的用户<br>内存消耗 :8.1 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="13-237-删除链表中的节点-难度：简单"><a href="#13-237-删除链表中的节点-难度：简单" class="headerlink" title="13 237. 删除链表中的节点  难度：简单"></a>13 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/delete-node-in-a-linked-list/">237. 删除链表中的节点  </a>难度：简单</h3><p>阅读理解题。就给了一个参数，意思是不删除节点，而是换掉节点存储的数的值。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(ListNode* node)</span> </span>&#123;</span><br><span class="line">        node-&gt;val=node-&gt;next-&gt;val;</span><br><span class="line">        node-&gt;next=node-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    void deleteNode(ListNode* node) &#123;
+        node-&gt;val&#x3D;node-&gt;next-&gt;val;
+        node-&gt;next&#x3D;node-&gt;next-&gt;next;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :20 ms, 在所有 C++ 提交中击败了11.62% 的用户<br>内存消耗 :7.8 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="14-面试题-02-03-删除中间节点-难度：简单"><a href="#14-面试题-02-03-删除中间节点-难度：简单" class="headerlink" title="14 面试题 02.03. 删除中间节点  难度：简单"></a>14 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/delete-middle-node-lcci/">面试题 02.03. 删除中间节点  </a>难度：简单</h3><p>跟上一题一样。这次把不要的节点删了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(ListNode* node)</span> </span>&#123;</span><br><span class="line">        ListNode* x=node-&gt;next;</span><br><span class="line">        node-&gt;val=x-&gt;val;</span><br><span class="line">        node-&gt;next=x-&gt;next;</span><br><span class="line">        <span class="keyword">delete</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    void deleteNode(ListNode* node) &#123;
+        ListNode* x&#x3D;node-&gt;next;
+        node-&gt;val&#x3D;x-&gt;val;
+        node-&gt;next&#x3D;x-&gt;next;
+        delete x;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :28 ms, 在所有 C++ 提交中击败了11.97% 的用户<br>内存消耗 :7.8 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="15-面试题-02-02-返回倒数第-k-个节点-难度：简单"><a href="#15-面试题-02-02-返回倒数第-k-个节点-难度：简单" class="headerlink" title="15 面试题 02.02. 返回倒数第 k 个节点  难度：简单"></a>15 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/kth-node-from-end-of-list-lcci/">面试题 02.02. 返回倒数第 k 个节点  </a>难度：简单</h3><p>双指针</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kthToLast</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode* a=head;</span><br><span class="line">        ListNode* b=head;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;k<span class="number">-1</span>;i++) a=a-&gt;next;</span><br><span class="line">        <span class="keyword">while</span>(a-&gt;next!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            a=a-&gt;next;</span><br><span class="line">            b=b-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b-&gt;val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int kthToLast(ListNode* head, int k) &#123;
+        ListNode* a&#x3D;head;
+        ListNode* b&#x3D;head;
+        for(int i&#x3D;0;i&lt;k-1;i++) a&#x3D;a-&gt;next;
+        while(a-&gt;next!&#x3D;NULL)&#123;
+            a&#x3D;a-&gt;next;
+            b&#x3D;b-&gt;next;
+        &#125;
+        return b-&gt;val;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :4 ms, 在所有 C++ 提交中击败了75.90% 的用户<br>内存消耗 :10.4 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="16-面试题55-I-二叉树的深度-难度：简单"><a href="#16-面试题55-I-二叉树的深度-难度：简单" class="headerlink" title="16 面试题55 - I. 二叉树的深度  难度：简单"></a>16 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/">面试题55 - I. 二叉树的深度  </a>难度：简单</h3><p>最基本的二叉树操作，后序遍历</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> lDepth = <span class="number">1</span>, rDepth = <span class="number">1</span>;</span><br><span class="line">        lDepth += <span class="built_in">maxDepth</span>(root-&gt;left);</span><br><span class="line">        rDepth += <span class="built_in">maxDepth</span>(root-&gt;right);</span><br><span class="line">        <span class="keyword">return</span> lDepth&gt;rDepth?lDepth:rDepth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ *&#x2F;
+class Solution &#123;
+public:
+    int maxDepth(TreeNode* root) &#123;
+        if(root &#x3D;&#x3D; NULL) return 0;
+        int lDepth &#x3D; 1, rDepth &#x3D; 1;
+        lDepth +&#x3D; maxDepth(root-&gt;left);
+        rDepth +&#x3D; maxDepth(root-&gt;right);
+        return lDepth&gt;rDepth?lDepth:rDepth;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :16 ms, 在所有 C++ 提交中击败了47.13% 的用户<br>内存消耗 :19 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="17-面试题17-打印从1到最大的n位数-难度：简单"><a href="#17-面试题17-打印从1到最大的n位数-难度：简单" class="headerlink" title="17 面试题17. 打印从1到最大的n位数  难度：简单"></a>17 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/">面试题17. 打印从1到最大的n位数  </a>难度：简单</h3><p>简单题</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">printNumbers</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; vec;</span><br><span class="line">        <span class="keyword">int</span> max = <span class="number">0</span>; </span><br><span class="line">        <span class="keyword">while</span>(n--)&#123;</span><br><span class="line">            max = max*<span class="number">10</span> + <span class="number">9</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=max;i++)&#123;</span><br><span class="line">            vec.<span class="built_in">push_back</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> vec;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    vector&lt;int&gt; printNumbers(int n) &#123;
+        vector&lt;int&gt; vec;
+        int max &#x3D; 0; 
+        while(n--)&#123;
+            max &#x3D; max*10 + 9;
+        &#125;
+        for(int i&#x3D;1;i&lt;&#x3D;max;i++)&#123;
+            vec.push_back(i);
+        &#125;
+        return vec;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :4 ms, 在所有 C++ 提交中击败了98.14% 的用户<br>内存消耗 :11.4 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="18-709-转换成小写字母-难度：简单"><a href="#18-709-转换成小写字母-难度：简单" class="headerlink" title="18 709. 转换成小写字母  难度：简单"></a>18 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/to-lower-case/">709. 转换成小写字母  </a>难度：简单</h3><p>简单题</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">toLowerCase</span><span class="params">(string str)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.<span class="built_in">length</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(str[i]&gt;=<span class="string">&#x27;A&#x27;</span>&amp;&amp;str[i]&lt;=<span class="string">&#x27;Z&#x27;</span>)&#123;</span><br><span class="line">                str[i] -= (<span class="string">&#x27;Z&#x27;</span> - <span class="string">&#x27;z&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    string toLowerCase(string str) &#123;
+        for(int i&#x3D;0;i&lt;str.length();i++)&#123;
+            if(str[i]&gt;&#x3D;&#39;A&#39;&amp;&amp;str[i]&lt;&#x3D;&#39;Z&#39;)&#123;
+                str[i] -&#x3D; (&#39;Z&#39; - &#39;z&#39;);
+            &#125;
+        &#125;
+        return str;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :0 ms, 在所有 C++ 提交中击败了100.00% 的用户<br>内存消耗 :6.3 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="19-1323-6-和-9-组成的最大数字-难度：简单"><a href="#19-1323-6-和-9-组成的最大数字-难度：简单" class="headerlink" title="19 1323. 6 和 9 组成的最大数字  难度：简单"></a>19 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-69-number/">1323. 6 和 9 组成的最大数字  </a>难度：简单</h3><p>题解里学到一个函数<code>string s = to_string(num);</code></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maximum69Number</span> <span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line">        <span class="keyword">while</span>(num!=<span class="number">0</span>)&#123;</span><br><span class="line">            a.<span class="built_in">push_back</span>(num%<span class="number">10</span>);</span><br><span class="line">            num /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=a.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i]==<span class="number">6</span>)&#123;</span><br><span class="line">                a[i]=<span class="number">9</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> r=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=a.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            r = r*<span class="number">10</span> + a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int maximum69Number (int num) &#123;
+        vector&lt;int&gt; a;
+        while(num!&#x3D;0)&#123;
+            a.push_back(num%10);
+            num &#x2F;&#x3D; 10;
+        &#125;
+        for(int i&#x3D;a.size()-1;i&gt;&#x3D;0;i--)&#123;
+            if(a[i]&#x3D;&#x3D;6)&#123;
+                a[i]&#x3D;9;
+                break;
+            &#125;
+        &#125;
+        int r&#x3D;0;
+        for(int i&#x3D;a.size()-1;i&gt;&#x3D;0;i--)&#123;
+            r &#x3D; r*10 + a[i];
+        &#125;
+        return r;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :0 ms, 在所有 C++ 提交中击败了100.00% 的用户<br>内存消耗 :6 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <hr>
 <h3 id="20-1323-6-和-9-组成的最大数字-难度：简单"><a href="#20-1323-6-和-9-组成的最大数字-难度：简单" class="headerlink" title="20 1323. 6 和 9 组成的最大数字  难度：简单"></a>20 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-69-number/">1323. 6 和 9 组成的最大数字  </a>难度：简单</h3><p>没想出来好解法，还是笨办法模拟。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">oddCells</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m, vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt;&amp; indices)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">a</span>(n, vector&lt;<span class="keyword">int</span>&gt; (m, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;indices.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">                a[indices[i][<span class="number">0</span>]][j]++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</span><br><span class="line">                a[j][indices[i][<span class="number">1</span>]]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(a[i][j]%<span class="number">2</span>==<span class="number">1</span>) count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int oddCells(int n, int m, vector&lt;vector&lt;int&gt;&gt;&amp; indices) &#123;
+        vector&lt;vector&lt;int&gt;&gt; a(n, vector&lt;int&gt; (m, 0));
+        int count &#x3D; 0;
+        for(int i&#x3D;0;i&lt;indices.size();i++)&#123;
+            for(int j&#x3D;0;j&lt;m;j++)&#123;
+                a[indices[i][0]][j]++;
+            &#125;
+            for(int j&#x3D;0;j&lt;n;j++)&#123;
+                a[j][indices[i][1]]++;
+            &#125;
+        &#125;
+        for(int i&#x3D;0;i&lt;n;i++)&#123;
+            for(int j&#x3D;0;j&lt;m;j++)&#123;
+                if(a[i][j]%2&#x3D;&#x3D;1) count++;
+            &#125;
+        &#125;
+        return count;
+    &#125;
+&#125;;</code></pre>
 <blockquote>
 <p>执行用时 :8 ms, 在所有 C++ 提交中击败了51.03% 的用户<br>内存消耗 :8.1 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cells-with-odd-values-in-a-matrix/solution/ti-jie-1252-qi-shu-zhi-dan-yuan-ge-de-shu-mu-by-ze/">这篇题解写了几种思路  </a>作者：zerotrac2</p>
 <hr>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/04/16/leetcode-1/" data-id="ckmpwzdyd000eqsvl5shgepzg" data-title="leetcode记录 (1)" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/04/22/leetcode-2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          leetcode记录 (2)
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/04/15/stl-0/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">C++ STL快速上手</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">记录</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/03/26/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/25/ml2014ang/">machine learning - andrew ng</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/14/summary-2020/">summary-2020</a>
-          </li>
-        
-          <li>
-            <a href="/2020/04/22/leetcode-2/">leetcode记录 (2)</a>
-          </li>
-        
-          <li>
-            <a href="/2020/04/16/leetcode-1/">leetcode记录 (1)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>zm</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="http://acbgzm.github.io/2020/04/16/leetcode-1/" title="leetcode记录 (1)">http://acbgzm.github.io/2020/04/16/leetcode-1/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2020/04/22/leetcode-2/" rel="prev" title="leetcode记录 (2)"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">leetcode记录 (2)</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2020/04/15/stl-0/" rel="next" title="C++ STL快速上手"><span class="post-nav-text">C++ STL快速上手</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" target="_blank" rel="noopener" href="https://github.com/ACBGZM/acbgzm.github.io/issues?q=is:issue+leetcode记录 (1)">GitHub Issues</a><a class="hty-button hty-button--raised" id="github-discussions" target="_blank" rel="noopener" href="https://github.com/YunYouJun/yunyoujun.github.io/discussions/new">GitHub Discussions</a></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> zm</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.5.1</span></div><div id="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv" title="总访客量"><span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-user-line"></use></svg></span><span id="busuanzi_value_site_uv"></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv" title="总访问量"><span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-eye-line"></use></svg></span><span id="busuanzi_value_site_pv"></span></span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></div></body></html>
