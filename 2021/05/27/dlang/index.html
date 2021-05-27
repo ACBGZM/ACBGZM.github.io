@@ -238,7 +238,7 @@
 <meta property="og:image" content="https://github.com/ACBGZM/MyPostImage/raw/master/ml-notes-img/nndl/tf12.png">
 <meta property="og:image" content="https://github.com/ACBGZM/MyPostImage/raw/master/ml-notes-img/nndl/tf13.png">
 <meta property="article:published_time" content="2021-05-27T06:49:55.000Z">
-<meta property="article:modified_time" content="2021-05-27T08:19:22.402Z">
+<meta property="article:modified_time" content="2021-05-27T09:04:56.753Z">
 <meta property="article:author" content="zm">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="课程笔记">
@@ -652,7 +652,7 @@
 
 <p>计算近似梯度：</p>
 <p>$$ d\theta_{approx}[i] =\frac{J(\theta_1, \theta_2,…,\theta_i+\epsilon,…)-J(\theta_1, \theta_2,…,\theta_i-\epsilon,…)}{2\epsilon} \approx d\theta[i] = \frac{\partial J}{\partial \theta_i}$$</p>
-<p>$$check: \frac{||d\theta_{approx}-d\theta||<em>2}{||d\theta</em>{approx}||_2+||d\theta||_2} \approx 10^{-7}$$</p>
+<p>$$check: \frac{||d\theta_{approx}-d\theta||_2}{||d\theta_{approx}||_2+||d\theta||_2} \approx 10^{-7}$$</p>
 <p>如果 $\approx10^{-5}$，检查向量，确保没有一项误差过大，确保没有bug；如果 $\approx10^{-3}$，需要小心有bug。可以检查哪一项的导数计算结果和估计值偏差很大，并反推求导过程，检查bug。</p>
 <h4 id="1-14-应用梯度检验的注意事项"><a href="#1-14-应用梯度检验的注意事项" class="headerlink" title="1.14 应用梯度检验的注意事项"></a>1.14 应用梯度检验的注意事项</h4><img src='https://github.com/ACBGZM/MyPostImage/raw/master/ml-notes-img/nndl/65-add.png' width="80%" height="80%"/ loading="lazy">
 
@@ -1549,7 +1549,7 @@ alpha &#x3D; exp(10, r)</code></pre>
 
 <p>用预训练卷积神经网络的隐藏层 $l$ 来计算内容损失，通常选择 $l$ 在网络的中间层，不太浅也不太深。</p>
 <p>就像本章前面所讲，我们用这张图片的编码来计算内容损失。</p>
-<p>$$J_{content}(C,G) = \frac{1}{2}||a^{\left<a href="C">l\right</a>}- a^{\left<a href="G">l\right</a>}||^2  $$</p>
+<p>$$J_{content}(C,G) = \frac{1}{2}||a^{(l)(C)}- a^{(l)(G)}||^2  $$</p>
 <h4 id="4-10-风格代价函数"><a href="#4-10-风格代价函数" class="headerlink" title="4.10 风格代价函数"></a>4.10 风格代价函数</h4><img src='https://github.com/ACBGZM/MyPostImage/raw/master/ml-notes-img/nndl/191.png' width="80%" height="80%"/ loading="lazy">
 
 <p>把图片的风格定义为：$l$ 层中各个通道之间激活项的相关性系数。</p>
@@ -1568,9 +1568,9 @@ alpha &#x3D; exp(10, r)</code></pre>
 <p>对于G和S，分别计算一个风格矩阵。</p>
 <ul>
 <li>用第 $l$ 层来测量风格，$a^{[l]}_{i,j,k} $ 是 $l$ 层中 $(i,j,k)$ 位置的激活值。$i,j,k$ 分别是高度、宽度、channel。</li>
-<li>$G^{\left<a href="S">l\right</a>}$ 是第 $l$ 层的风格矩阵，规格是 $n_c^{\left[l\right]} \times n_c^{\left[l\right]}$。<ul>
-<li>$S$ 的风格矩阵：$G_{kk’}^{\left<a href="S">l\right</a>}=\sum^{n^{\left[l\right]}<em>H}</em>{i=1}\sum^{n^{\left[l\right]}<em>W}</em>{j=1}a_{ijk}^{\left<a href="S">l\right</a>}a_{ijk’}^{\left<a href="S">l\right</a>}  $ </li>
-<li>$G$ 的风格矩阵：$G_{kk’}^{\left<a href="G">l\right</a>}=\sum^{n^{\left[l\right]}<em>H}</em>{i=1}\sum^{n^{\left[l\right]}<em>W}</em>{j=1}a_{ijk}^{\left<a href="G">l\right</a>}a_{ijk’}^{\left<a href="G">l\right</a>}  $ </li>
+<li>$G^{(l)(S)}$ 是第 $l$ 层的风格矩阵，规格是 $n_c^{(l)} \times n_c^{(l)}$。<ul>
+<li>$S$ 的风格矩阵：$G_{kk’}^{(l)(S)}=\sum^{n^{(l)}<em>H}</em>{i=1}\sum^{n^{(l)}<em>W}</em>{j=1}a_{ijk}^{(l)(S)}a_{ijk’}^{(l)(S)}  $ </li>
+<li>$G$ 的风格矩阵：$G_{kk’}^{(l)(G)}=\sum^{n^{(l)}<em>H}</em>{i=1}\sum^{n^{(l)}<em>W}</em>{j=1}a_{ijk}^{(l)(G)}a_{ijk’}^{(l)(G)}  $ </li>
 <li>用 $G$ 这个字母来表示是因为在线性代数中这也叫 “gram matrix”</li>
 <li>做的事情：遍历图中各个高度和宽度，将 $k$ 和 $k’$ 通道中对应位置的激活项相乘并求和。如果两个通道对应的激活值 $a$ 相关，$G$ 就大。</li>
 </ul>
@@ -1579,9 +1579,9 @@ alpha &#x3D; exp(10, r)</code></pre>
 <img src='https://github.com/ACBGZM/MyPostImage/raw/master/ml-notes-img/nndl/194.png' width="80%" height="80%"/ loading="lazy">
 
 <p>最终的风格损失函数：</p>
-<p>$$ J_{style}^{\left[l\right]}(S,G) = ||G^{\left<a href="S">l\right</a>} - G^{\left<a href="G">l\right</a>}  ||^2_F    $$</p>
+<p>$$ J_{style}^{(l)}(S,G) = ||G^{(l)(S)} - G^{(l)(G)}  ||^2_F    $$</p>
 <p>也可以定义神经网络所有层的风格损失函数：</p>
-<p>$$ J_{style}(S,G)=\sum <em>l \lambda^{\left[l\right]} J</em>{style}^{\left[l\right]}(S,G)   $$</p>
+<p>$$ J_{style}(S,G)=\sum <em>l \lambda^{(l)} J</em>{style}^{(l)}(S,G)   $$</p>
 <h4 id="4-11-图像的一维和三维扩展"><a href="#4-11-图像的一维和三维扩展" class="headerlink" title="4.11 图像的一维和三维扩展"></a>4.11 图像的一维和三维扩展</h4><p>从2D图像到1D心电图：</p>
 <img src='https://github.com/ACBGZM/MyPostImage/raw/master/ml-notes-img/nndl/195.png' width="80%" height="80%"/ loading="lazy">
 
