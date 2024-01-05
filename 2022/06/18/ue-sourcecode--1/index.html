@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="miu"><meta name="copyright" content="miu"><meta name="generator" content="Hexo 6.3.0"><meta name="theme" content="hexo-theme-yun"><title>【我看UE源码】（-1）一切之前的事情 | 临时个人主页</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/favicon.ico"><link rel="mask-icon" href="/favicon.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"acbgzm.github.io","root":"/","title":"slowmotion","version":"1.10.9","mode":"time","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="本篇包括：编译源码版引擎，Rider的学生优惠获取方法，一些方便使用的设置（持续更新），Rider&#x2F;VS + Unreal 的调试方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【我看UE源码】（-1）一切之前的事情">
+<meta property="og:url" content="http://acbgzm.github.io/2022/06/18/ue-sourcecode--1/index.html">
+<meta property="og:site_name" content="临时个人主页">
+<meta property="og:description" content="本篇包括：编译源码版引擎，Rider的学生优惠获取方法，一些方便使用的设置（持续更新），Rider&#x2F;VS + Unreal 的调试方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/51.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/52.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/54.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/53.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/56.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/55.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/57.png">
+<meta property="article:published_time" content="2022-06-18T15:59:02.000Z">
+<meta property="article:modified_time" content="2022-09-07T14:18:59.225Z">
+<meta property="article:author" content="miu">
+<meta property="article:tag" content="游戏开发">
+<meta property="article:tag" content="UnrealEngine">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/2022/51.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="miu"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="miu"><span class="site-author-status" title="永远相信美好的事情即将发生">🎸</span></a><div class="site-author-name"><a href="/about/">miu</a></div><span class="site-name">临时个人主页</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">16</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/lab" title="lab"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/ACBGZM" title="GitHub" target="_blank" style="color:#181717"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/10388034" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:ACBGZM@126.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:open-arm-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%8E%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91UE4"><span class="toc-text">1 从源码编译UE4</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Rider-for-UE"><span class="toc-text">2 Rider for UE</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%99%BD%E5%AB%96%E5%AD%A6%E7%94%9F%E5%85%8D%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">白嫖学生免费的方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Rider-%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-text">Rider 快捷键</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%B0%83%E8%AF%95"><span class="toc-text">3 调试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC"><span class="toc-text">基本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%AD%E7%82%B9"><span class="toc-text">断点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E6%96%AD%E7%82%B9"><span class="toc-text">条件断点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%96%AD%E7%82%B9"><span class="toc-text">数据断点</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://acbgzm.github.io/2022/06/18/ue-sourcecode--1/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="miu"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="临时个人主页"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">【我看UE源码】（-1）一切之前的事情</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2022-06-18 23:59:02" itemprop="dateCreated datePublished" datetime="2022-06-18T23:59:02+08:00">2022-06-18</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">2.3k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">8m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/UE%E6%BA%90%E7%A0%81/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">UE源码</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">游戏开发</span></a><a class="tag-item" href="/tags/UnrealEngine/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">UnrealEngine</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h4 id="1-从源码编译UE4"><a href="#1-从源码编译UE4" class="headerlink" title="1 从源码编译UE4"></a>1 从源码编译UE4</h4><p>Unreal Engine是源码开放软件而不是开源软件。在获取引擎源码之前，需要加入Epic的Github组织，然后才能下载。从下载到跑起来，要经历下载源码、下第三方库、生成工程sln文件、编译引擎等步骤，可以看看这些资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rU4y1T73E">（视频）如何调试UE4引擎源码</a> </li>
+<li><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProductionPipelines/DevelopmentSetup/BuildingUnrealEngine/">（官方文档）从源代码构建虚幻引擎</a></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.unrealengine.com/en-US/eula/unreal">协议</a>里提到，分享源码有一个30行的限制。这个尽量遵守。</p>
+<p>我的小笔记本和长城宽带做这些事情都是比较慢的。在编译引擎代码的时候，遇到了 <code>fatal error C1060: 编译器的堆空间不足</code>，<code>fatal error C1002: 在第 2 遍中编译器的堆空间不足</code>，<code>error C3859: 超过了 PCH 的虚拟内存范围</code> 等报错。原因和解决方法可以参考以下博文：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LynnVon/p/11287337.html">ue4 源码编译 虚拟内存不足 堆限制</a> </li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/king4875/article/details/120142678">【ue4】fatal error C1060: “编译器的堆空间不足“</a> </li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/109178480">编译UE4时error C3859: 超过了 PCH 的虚拟内存范围问题解决</a></li>
+</ul>
+<p>如果只改factor的值，我还是编译不成。最终用了跟最后一篇完全一样的方法，修改到100、设置分页大小 64M-2927M。</p>
+<h4 id="2-Rider-for-UE"><a href="#2-Rider-for-UE" class="headerlink" title="2 Rider for UE"></a>2 Rider for UE</h4><p>之前没用VS写过UE的C++（只用了蓝图），但看过一些Rider跟VS相比的文章，据说Rider全局搜索和跳转的速度快很多。因此我就直接下了个Rider来用。</p>
+<p>JetBrains 的 IDE，我至今应该用过 WebStorm、IntelliJ IDEA、PyCharm 了，现在又在用 Rider。因此就打算把一些使用上的小习惯整理一下，也把在VS里用得顺手的部分迁移过来，延续下去。这里以 Rider + Unreal 为例，记录一些 IDEA 风格的 IDE 常用的快捷键，以及调试方法。（持续更新）</p>
+<h5 id="白嫖学生免费的方法"><a href="#白嫖学生免费的方法" class="headerlink" title="白嫖学生免费的方法"></a>白嫖学生免费的方法</h5><p>可以看看这两篇文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_64568746/article/details/122421150">JetBrains学生认证全家桶申请学生账户方式-保姆级</a> </li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/378185042">Jetbrains学生授权获取指南</a></li>
+</ul>
+<p>我的edu邮箱不能直接申请，也是用了学信网。但也要填一个edu邮箱。过几天后，edu邮箱会收到邮件告知通过，并有一个链接可以把学生资历绑定到账号上。</p>
+<p>不知为何，我没能将我的学生免费绑定在已有的账号上（绑定已有账号后，显示成功，但库里没有免费license），并且经过这一步后，收到的邮件也点不进去了。一番尝试后，我发现再用学生邮箱重新注册一个新号，注册完后就可以直接在库里找到免费的license，并且用户名直接给我实名上网了。大概是必须用之前填写的edu邮箱账号享受学生优惠吧。</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master\blogimg\2022\51.png" style="zoom:67%;" / loading="lazy"></li>
+</ul>
+<p>之后要把UE跟Rider关联起来，看这篇文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/379911259">【UE4】Rider For Unreal体验报告</a>。</p>
+<h5 id="Rider-快捷键"><a href="#Rider-快捷键" class="headerlink" title="Rider 快捷键"></a>Rider 快捷键</h5><p>打开File-&gt;Settings-&gt;Keymap，就可以设置快捷键了。我使用IntelliJ Keymap，不再使用VS</p>
+<p>（个人习惯）首先，修改在VS里用得很顺的快捷键：</p>
+<ul>
+<li>Split Line 改为 <code>Shift + Enter</code>，Start New Line 改为 <code>Ctrl + Enter</code>（互换）</li>
+<li>Switch Header&#x2F;Source 添加快捷键 <code>Alt + O</code></li>
+</ul>
+<p>查找快捷键：</p>
+<ul>
+<li><code>Ctrl + Shift + F</code> 全局查找</li>
+<li><code>Ctrl + F</code> 文件内查找</li>
+</ul>
+<p>用到方向键的快捷键：</p>
+<ul>
+<li><code>Alt + 左右</code> 切换打开的文件</li>
+<li><code>Alt + 上下</code> 文件内移动到相邻方法</li>
+<li><code>Ctrl + 左右</code> 移动光标到相邻单词</li>
+<li><code>Ctrl + 上下</code> 滚屏</li>
+<li>（个人习惯）上面是原始的快捷键，我把<code>Alt + 上下</code>跟<code>Ctrl + 上下</code>交换了一下。这样，按 <code>Ctrl</code> 就是在文件内跳转光标位置，按 <code>Alt</code> 就是在切屏（正好我的 <code>Alt + O</code> 也是在切文件），我个人觉得更好记一些</li>
+<li><code>Shift + 方向键</code> 选中</li>
+</ul>
+<p>在Main Menu-&gt;Navigate里可以看一些导航常用的快捷键</p>
+<ul>
+<li>通常用 <code>Ctrl + Click</code> 速览定义&#x2F;使用。这是可以使用<code>鼠标4/5键</code>，在光标位置之间移动（用于上一个操作的返回）。大拇指往下抠是向前，往上抠是向后。（公司电脑没有侧键，点击左上角两个方向图标）</li>
+<li><code>Ctrl + N</code> 查找类</li>
+<li><code>Ctrl + Shift + Backspace</code> 到上个编辑点</li>
+</ul>
+<h4 id="3-调试"><a href="#3-调试" class="headerlink" title="3 调试"></a>3 调试</h4><p>Unreal + VS 的调试方法，参考这个视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rU4y1T73E">如何调试UE4引擎源码</a>。</p>
+<p>Rider中的调试方法，参考这篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34599132/article/details/90178393">Intellij IDEA中使用好Debug调试</a>。</p>
+<p>这里整理一下UE + Rider的调试方法。事先，要从源码编译过引擎后，在引擎里新建一个项目，这一步就不多说了，只提有了项目之后的调试。</p>
+<p>首先在Rider编译项目的Development Editor版本，然后在UE中把项目打一个debug包（只有用源码版引擎的时候才能打debug包）。此时，项目&#x2F;Binaries&#x2F;Win64&#x2F;下就有一个可执行的Debug.exe文件了。</p>
+<p>然后，在Rider切换到项目的Debug版本，点Debug，就可以对引擎源码进行调试了。游戏会自动打开。</p>
+<p>一个小技巧：Rider点Debug肯定就是打开最后打包好的Debug版本的游戏了（好像是在Binaries目录下面），但在Editor打包可以多搞几个文件夹、把好几个版本的包都保存下来。虽然不能调试引擎源码，但能看一下游戏里的表现，WidgetReflector之类的各种命令行也能用。对于做一些对比工作比较方便。</p>
+<h5 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h5><p>这里详细说一下Rider+Unreal调试的过程。</p>
+<p>当游戏开始后点击Rider里的暂停，这时可以看到游戏的各个线程</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master\blogimg\2022\52.png" style="zoom:67%;" / loading="lazy"></li>
+</ul>
+<p>点开一个线程可以看到函数调用栈，比如这里点开主线程，可以看到在做Slate相关的一些事情。游戏时时刻刻在做各种各样的事情，多暂停几次会发现函数调用栈都很不相同</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master\blogimg\2022\54.png" style="zoom:67%;" / loading="lazy"></li>
+</ul>
+<p>可以对照上面的VS视频，在VS里也是一样，跑Debug模式，然后按全部中断，可以选线程然后看函数调用栈</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master\blogimg\2022\53.png" style="zoom:67%;" / loading="lazy"></li>
+</ul>
+<h5 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h5><p>回到Rider，接下来展示一下打断点调试的过程。首先，可以在上面暂停游戏后，在代码中打断点，然后继续运行。</p>
+<p>也可以事先打断点，比如我想看引擎在初始化阶段都做了什么（相关的过程可以看另一篇文章），可以在PreInit里随便打个断点，点击Debug后程序就会跑到这里停下，下方可以看相应的函数调用栈。</p>
+<p>插播一条，如图，debug模式下也可以看到已执行函数的参数值，函数的返回值，等。写在这一行的后面。</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master\blogimg\2022\56.png" style="zoom:67%;" / loading="lazy"></li>
+</ul>
+<p>然后，比较常用的就是框出的那几个按钮。其中我基本上只用中间的3个。</p>
+<p>绿色“继续”按钮就是运行到下一个断点执行<strong>之前</strong>。蓝色的三个，第一个是跳到当前方法执行完的地方，第二个是一行行地执行，如果遇到方法就进入方法内部。</p>
+<p>比如从这里，我想进入PreInitPreStartupScreen()看看，就点蓝色的第二个。在方法其中，可以打一些断点，那么我就点绿色的继续按钮，程序会执行到下一个断点处。通过类似的方法，在<code>FPreLoadScreenManager::Get()-&gt;Initialize(SlateRendererSharedRef.Get());</code>打了个断点后发现，这一步执行之后，游戏的窗口就被创建出来了。</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master\blogimg\2022\55.png" style="zoom:67%;" / loading="lazy"></li>
+</ul>
+<p>一步步到PreInitPostStartupScreen中的<code>ProcessNewlyLoadedUObjects();</code>执行完后，游戏窗口变黑了。</p>
+<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master\blogimg\2022\57.png" style="zoom:67%;" / loading="lazy"></li>
+</ul>
+<p>但我不是很关心这个窗口具体发生了什么，这时我可以点击蓝色的第三个按钮Step Out，跳转到PreInitPostStartupScreen执行结束的地方。</p>
+<p>然后，如果发现之前有些断点没啥用，就点击倒数第二个叠起来的断点按钮，其中可以看到打过的所有断点，也可以在下方的代码预览框里把这个断点删掉。</p>
+<p>最终，在Tick()方法中的<code>FSlateApplication::Get().Tick(ESlateTickType::TimeAndWidgets);</code>执行完后，窗口就画出了游戏画面了。然后就可以进入这个方法，看看到底是如何把游戏世界画出来的。</p>
+<p>这就是我用这几个按钮的方法。</p>
+<h5 id="条件断点"><a href="#条件断点" class="headerlink" title="条件断点"></a>条件断点</h5><p>在普通断点处点右键，condition里写语句就可以了。拿Slate举例，比如从WidgetReflector里查到一个控件的地址，可以打 <code>this==0x1f19e44a190</code> 让程序停到该控件的Paint()里；或者是 <code>ThisIndex&gt;=3</code> 这种判断某一帧有更多控件加入了循环，类似的语句都可以。</p>
+<h5 id="数据断点"><a href="#数据断点" class="headerlink" title="数据断点"></a>数据断点</h5><p>我也不知道怎么在Rider里打数据断点。在<a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/rider/Using_breakpoints.html#data-breakpoints">官方文档有个图片</a>，看的应该是先把数据加入watch列表，然后右键可以设置数据断点，但是我右键没有这个选项。</p>
+<p>文档还提了一句不支持2020.2的结构体的字段和属性，可能是这个原因吧。总之不是很清楚怎么在rider用数据断点。</p>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>miu</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="http://acbgzm.github.io/2022/06/18/ue-sourcecode--1/" title="【我看UE源码】（-1）一切之前的事情">http://acbgzm.github.io/2022/06/18/ue-sourcecode--1/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2022/09/07/ue-0/" rel="prev" title="【我看UE源码】（0）系列开篇 &amp; 全目录"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">【我看UE源码】（0）系列开篇 &amp; 全目录</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/03/15/games101/" rel="next" title="GAMES101 - 现代计算机图形学入门 - 闫令琪"><span class="post-nav-text">GAMES101 - 现代计算机图形学入门 - 闫令琪</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://utteranc.es/client.js" repo="ACBGZM/ACBGZM.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> miu</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>

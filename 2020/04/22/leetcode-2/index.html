@@ -1,0 +1,398 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="miu"><meta name="copyright" content="miu"><meta name="generator" content="Hexo 6.3.0"><meta name="theme" content="hexo-theme-yun"><title>leetcode记录 (2) | 临时个人主页</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/favicon.ico"><link rel="mask-icon" href="/favicon.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"acbgzm.github.io","root":"/","title":"slowmotion","version":"1.10.9","mode":"time","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="leetcode刷题笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode记录 (2)">
+<meta property="og:url" content="http://acbgzm.github.io/2020/04/22/leetcode-2/index.html">
+<meta property="og:site_name" content="临时个人主页">
+<meta property="og:description" content="leetcode刷题笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-22T08:50:08.000Z">
+<meta property="article:modified_time" content="2022-01-26T07:47:18.148Z">
+<meta property="article:author" content="miu">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="miu"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="miu"><span class="site-author-status" title="永远相信美好的事情即将发生">🎸</span></a><div class="site-author-name"><a href="/about/">miu</a></div><span class="site-name">临时个人主页</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">16</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/lab" title="lab"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/ACBGZM" title="GitHub" target="_blank" style="color:#181717"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/10388034" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:ACBGZM@126.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:open-arm-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E9%9D%A2%E8%AF%95%E9%A2%9813-%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E8%BF%90%E5%8A%A8%E8%8C%83%E5%9B%B4-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E4%B8%AD%E7%AD%89"><span class="toc-text">21 面试题13. 机器人的运动范围  难度：中等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-151-%E7%BF%BB%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%87%8C%E7%9A%84%E5%8D%95%E8%AF%8D-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E4%B8%AD%E7%AD%89"><span class="toc-text">22 151. 翻转字符串里的单词  难度：中等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-445-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0-II-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E4%B8%AD%E7%AD%89"><span class="toc-text">23 445. 两数相加 II  难度：中等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#24-11-%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E7%9A%84%E5%AE%B9%E5%99%A8-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E4%B8%AD%E7%AD%89"><span class="toc-text">24 11. 盛最多水的容器  难度：中等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25-206-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E4%B8%AD%E7%AD%89"><span class="toc-text">25 206. 反转链表  难度：中等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#26-200-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E4%B8%AD%E7%AD%89"><span class="toc-text">26 200. 岛屿数量  难度：中等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#27-7-%E6%95%B4%E6%95%B0%E5%8F%8D%E8%BD%AC-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">27 7. 整数反转  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-13-%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">28 13. 罗马数字转整数  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#29-13-%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E7%AE%80%E5%8D%95"><span class="toc-text">29 13. 罗马数字转整数  难度：简单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2-%E9%9A%BE%E5%BA%A6%EF%BC%9A%E4%B8%AD%E7%AD%89"><span class="toc-text">30 3. 无重复字符的最长子串  难度：中等</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://acbgzm.github.io/2020/04/22/leetcode-2/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="miu"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="临时个人主页"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">leetcode记录 (2)</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2020-04-22 16:50:08" itemprop="dateCreated datePublished" datetime="2020-04-22T16:50:08+08:00">2020-04-22</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">2.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">10m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%AC%94%E8%AE%B0/" style="--text-color:dimgray" itemprop="url" rel="index"><span itemprop="text">笔记</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E7%AE%97%E6%B3%95/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">算法</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>leetcode刷题笔记</p>
+<span id="more"></span>
+
+<h3 id="21-面试题13-机器人的运动范围-难度：中等"><a href="#21-面试题13-机器人的运动范围-难度：中等" class="headerlink" title="21 面试题13. 机器人的运动范围  难度：中等"></a>21 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/">面试题13. 机器人的运动范围  </a>难度：中等</h3><p>奇奇怪怪bug：先检验x和y是否越界，再检验visited[x][y]是否访问。否则会出现诡异的越界错误。</p>
+<p>注意vector二维数组的定义和初始化写法。</p>
+<p>dfs思想，多加练习。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int movingCount(int m, int n, int k) &#123;
+        vector&lt;vector&lt;int&gt; &gt; visited (m, vector&lt;int&gt; (n, 0));
+        return dfs(0, 0, m, n, k, visited);
+    &#125;
+    int dfs(int x, int y, int m, int n, int k, vector&lt;vector&lt;int&gt; &gt;&amp; visited)&#123;
+        if(x&gt;&#x3D;m || y&gt;&#x3D;n ||visited[x][y] &#x3D;&#x3D; 1 ||  (x&#x2F;10 + x%10 + y&#x2F;10 + y%10) &gt; k)&#123;
+            return 0;
+        &#125;
+        visited[x][y] &#x3D; 1;
+        return 1 + dfs(x+1, y, m, n, k, visited) + dfs(x, y+1, m, n, k, visited);
+    &#125;
+&#125;;</code></pre>
+<blockquote>
+<p>执行用时 :0 ms, 在所有 C++ 提交中击败了100.00% 的用户<br>内存消耗 :6.9 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
+</blockquote>
+<hr>
+<h3 id="22-151-翻转字符串里的单词-难度：中等"><a href="#22-151-翻转字符串里的单词-难度：中等" class="headerlink" title="22 151. 翻转字符串里的单词  难度：中等"></a>22 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-words-in-a-string/">151. 翻转字符串里的单词  </a>难度：中等</h3><p>我的方法：vector存储string，先后面加个空格就不用最后特殊判断了，用bool控制忽略连续的空格。</p>
+<p>因为库用的比较多，应该很费时。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    string reverseWords(string s) &#123;
+        s+&#x3D;&#39; &#39;;
+        vector&lt;string&gt; vec;
+        int t&#x3D;0;
+        bool space&#x3D;false;
+        string temp;
+        while(t&lt;s.size())&#123;
+            if(s[t]!&#x3D;&#39; &#39;)&#123;
+                temp+&#x3D;s[t];
+                space&#x3D;true;
+            &#125;
+            else if(s[t]&#x3D;&#x3D;&#39; &#39;)&#123;
+                if(space&#x3D;&#x3D;true)&#123;
+                    vec.push_back(temp);
+                    temp.clear();
+                    space&#x3D;false;	
+                &#125;
+            &#125;
+            t++;
+        &#125;
+        string s1;
+        for(int i&#x3D;vec.size()-1;i&gt;&#x3D;0;i--)&#123;
+            if(i!&#x3D;0)&#123;
+                s1+&#x3D;vec[i];
+                s1+&#x3D;&#39; &#39;;
+            &#125;
+            else&#123;
+                s1+&#x3D;vec[i];
+            &#125;
+        &#125;
+        return s1;
+    &#125;
+&#125;;</code></pre>
+<blockquote>
+<p>执行用时 :24 ms, 在所有 C++ 提交中击败了18.68% 的用户<br>内存消耗 :8.7 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
+</blockquote>
+<hr>
+<h3 id="23-445-两数相加-II-难度：中等"><a href="#23-445-两数相加-II-难度：中等" class="headerlink" title="23 445. 两数相加 II  难度：中等"></a>23 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/add-two-numbers-ii/">445. 两数相加 II  </a>难度：中等</h3><p>用的<strong>栈存储</strong>两个链表，<strong>头插法</strong>建立新链表。</p>
+<p>很多其他思路可以看看题解区，反转链表，转字符串，也有原地操作的，等等。</p>
+<p>坑：判断循环结束时，两栈空但有进位，不能结束循环。</p>
+<p>定义节点的时候别忘了用构造函数初始化一下。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;**
+ * Definition for singly-linked list.
+ * struct ListNode &#123;
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) &#123;&#125;
+ * &#125;;
+ *&#x2F;
+class Solution &#123;
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) &#123;
+        stack&lt;int&gt; s1, s2;
+        while(l1!&#x3D;NULL)&#123;
+            s1.push(l1-&gt;val);
+            l1&#x3D;l1-&gt;next;
+        &#125;
+        while(l2!&#x3D;NULL)&#123;
+            s2.push(l2-&gt;val);
+            l2&#x3D;l2-&gt;next;
+        &#125;
+        int carry&#x3D;0,sum&#x3D;0;
+        ListNode* head &#x3D; new ListNode(0);
+        while(!s1.empty() || !s2.empty() || carry!&#x3D;0)&#123;
+            int a &#x3D; s1.empty()?0:s1.top();
+            int b &#x3D; s2.empty()?0:s2.top();
+            sum &#x3D; a + b + carry;
+            ListNode* l &#x3D; new ListNode(sum%10);
+            carry&#x3D;sum&#x2F;10;
+
+            l-&gt;next &#x3D; head-&gt;next;
+            head-&gt;next &#x3D; l;
+            
+            if(!s1.empty()) s1.pop();
+            if(!s2.empty()) s2.pop();        
+        &#125;
+        return head-&gt;next;
+    &#125;
+&#125;;</code></pre>
+<blockquote>
+<p>执行用时 :64 ms, 在所有 C++ 提交中击败了12.70% 的用户<br>内存消耗 :73.8 MB, 在所有 C++ 提交中击败了11.11%的用户</p>
+</blockquote>
+<hr>
+<h3 id="24-11-盛最多水的容器-难度：中等"><a href="#24-11-盛最多水的容器-难度：中等" class="headerlink" title="24 11. 盛最多水的容器  难度：中等"></a>24 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/container-with-most-water/">11. 盛最多水的容器  </a>难度：中等</h3><p>一看题目就知道有好算法，然后怒模拟：</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int maxArea(vector&lt;int&gt;&amp; height) &#123;
+        int m_a &#x3D; 0;
+        int l &#x3D; height.size();
+        for(int i&#x3D;0;i&lt;l-1;i++)&#123;
+            for(int j&#x3D;i+1;j&lt;l;j++)&#123;
+                int area &#x3D; (j-i)*min(height[i], height[j]);
+                m_a &#x3D; area&gt;m_a?area:m_a;
+            &#125;
+        &#125;
+        return m_a;
+    &#125;
+&#125;;</code></pre>
+
+<p>果然超出时间限制了！^ ^</p>
+<p>根据题解，使用双指针：</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int maxArea(vector&lt;int&gt;&amp; height) &#123;
+        int max &#x3D; 0;
+        int head &#x3D; 0, rear &#x3D; height.size()-1;
+        while(head&lt;rear)&#123;
+            int area &#x3D; (rear - head) * min(height[head], height[rear]);
+            if(area&gt;max) max&#x3D;area;
+
+            if(height[head]&gt;height[rear]) rear--;
+            else head++;
+        &#125;
+        return max;
+    &#125;
+&#125;;</code></pre>
+<blockquote>
+<p>执行用时 :16 ms, 在所有 C++ 提交中击败了85.84% 的用户<br>内存消耗 :7.5 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
+</blockquote>
+<p>做到现在，99%的题依然感觉毫无思路，只能模拟。算法能力到底是见得太多–&gt;看什么都熟悉–&gt;立刻就知道往哪方面想，还是能凭空想出来好的解法？我暂且蒙在鼓里</p>
+<hr>
+<h3 id="25-206-反转链表-难度：中等"><a href="#25-206-反转链表-难度：中等" class="headerlink" title="25 206. 反转链表  难度：中等"></a>25 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-linked-list/">206. 反转链表  </a>难度：中等</h3><p>反转链表，双指针。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;**
+ * Definition for singly-linked list.
+ * struct ListNode &#123;
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) &#123;&#125;
+ * &#125;;
+ *&#x2F;
+class Solution &#123;
+public:
+    ListNode* reverseList(ListNode* head) &#123;
+        ListNode *p &#x3D; head, *q &#x3D; NULL;
+        while(p!&#x3D;NULL)&#123;
+            ListNode* temp &#x3D; p-&gt;next;
+            p-&gt;next &#x3D; q;
+            q &#x3D; p;
+            p &#x3D; temp;
+        &#125;
+        return q;
+    &#125;
+&#125;;</code></pre>
+
+<blockquote>
+<p>执行用时 :12 ms, 在所有 C++ 提交中击败了31.29% 的用户<br>内存消耗 :8.4 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
+</blockquote>
+<hr>
+<h3 id="26-200-岛屿数量-难度：中等"><a href="#26-200-岛屿数量-难度：中等" class="headerlink" title="26 200. 岛屿数量  难度：中等"></a>26 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-islands/">200. 岛屿数量  </a>难度：中等</h3><p>我的代码很不优雅，dfs不够熟练。而且我的函数参数太多了注意一下网友的简洁解法。</p>
+<p>有一个小坑：输入是空[]时要单独处理。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    
+    void search(int i, int j, vector&lt;vector&lt;char&gt;&gt;&amp; grid)&#123;
+        grid[i][j]&#x3D;&#39;0&#39;;
+        if(i&lt;(grid.size()-1) &amp;&amp; grid[i+1][j]&#x3D;&#x3D;&#39;1&#39;) search(i+1,j,grid);
+        if(j&lt;(grid[0].size()-1) &amp;&amp; grid[i][j+1]&#x3D;&#x3D;&#39;1&#39;) search(i,j+1,grid);
+        if(i&gt;0 &amp;&amp; grid[i-1][j]&#x3D;&#x3D;&#39;1&#39;) search(i-1,j,grid);
+        if(j&gt;0 &amp;&amp; grid[i][j-1]&#x3D;&#x3D;&#39;1&#39;) search(i,j-1,grid);
+    &#125;
+    int numIslands(vector&lt;vector&lt;char&gt;&gt;&amp; grid) &#123;
+        if(grid.empty()) return 0;
+        
+        int num &#x3D; 0;
+        for(int i&#x3D;0;i&lt;grid.size();i++)&#123;
+            for(int j&#x3D;0;j&lt;grid[0].size();j++)&#123;
+                    if(grid[i][j] &#x3D;&#x3D; &#39;1&#39;)&#123;
+                        num++;
+                        search(i,j,grid);
+                    &#125;    &#x2F;* 是陆地 *&#x2F; 
+                
+            &#125;
+        &#125;
+        return num;
+    &#125;
+&#125;;</code></pre>
+
+<blockquote>
+<p>执行用时 :12 ms, 在所有 C++ 提交中击败了86.76% 的用户<br>内存消耗 :8.3 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
+</blockquote>
+<hr>
+<h3 id="27-7-整数反转-难度：简单"><a href="#27-7-整数反转-难度：简单" class="headerlink" title="27 7. 整数反转  难度：简单"></a>27 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-integer/">7. 整数反转  </a>难度：简单</h3><p>这是道简单题，记录一下INT_MAX和INT_MIN的用法。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int reverse(int x) &#123;
+        int y&#x3D;0;
+        while(x)&#123;
+            if(y&gt;INT_MAX&#x2F;10 || y&lt;INT_MIN&#x2F;10)&#123;
+                return 0;
+            &#125;
+            int t &#x3D; x%10;
+            y &#x3D; y*10 + t;
+            x &#x2F;&#x3D; 10;
+        &#125;
+        return y;
+
+    &#125;
+&#125;;</code></pre>
+
+<blockquote>
+<p>执行用时 :4 ms, 在所有 C++ 提交中击败了67.75% 的用户<br>内存消耗 :6.1 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
+</blockquote>
+<hr>
+<h3 id="28-13-罗马数字转整数-难度：简单"><a href="#28-13-罗马数字转整数-难度：简单" class="headerlink" title="28 13. 罗马数字转整数  难度：简单"></a>28 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-integer/">13. 罗马数字转整数  </a>难度：简单</h3><p>也是简单题，复习map的用法。map赋值不用函数。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int romanToInt(string s) &#123;
+        unordered_map&lt;char, int&gt; mp;
+        mp[&#39;I&#39;] &#x3D; 1;
+        mp[&#39;V&#39;] &#x3D; 5;
+        mp[&#39;X&#39;] &#x3D; 10;
+        mp[&#39;L&#39;] &#x3D; 50;
+        mp[&#39;C&#39;] &#x3D; 100;
+        mp[&#39;D&#39;] &#x3D; 500;
+        mp[&#39;M&#39;] &#x3D; 1000;
+
+        int sum &#x3D; 0;
+        for(int i&#x3D;0;i&lt;s.size();i++)&#123;
+            if(mp[s[i]] &lt; mp[s[i+1]])&#123;
+                sum -&#x3D; mp[s[i]];
+            &#125;
+            else &#123;
+                sum +&#x3D; mp[s[i]];
+            &#125;
+        &#125;
+        return sum;
+    &#125;
+&#125;;</code></pre>
+
+<blockquote>
+<p>执行用时 :28 ms, 在所有 C++ 提交中击败了42.34% 的用户<br>内存消耗 :8.9 MB, 在所有 C++ 提交中击败了55.71%的用户</p>
+</blockquote>
+<hr>
+<h3 id="29-13-罗马数字转整数-难度：简单"><a href="#29-13-罗马数字转整数-难度：简单" class="headerlink" title="29 13. 罗马数字转整数  难度：简单"></a>29 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-integer/">13. 罗马数字转整数  </a>难度：简单</h3><p>跟本篇中的 <a href="#23-445-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0-ii-httpsleetcode-cncomproblemsadd-two-numbers-ii%E9%9A%BE%E5%BA%A6%E4%B8%AD%E7%AD%89">第23</a> 是同一题，这次没用栈，用的直接操作链表，头插法。两种对比着看。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;**
+ * Definition for singly-linked list.
+ * struct ListNode &#123;
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) &#123;&#125;
+ * &#125;;
+ *&#x2F;
+class Solution &#123;
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) &#123;
+        ListNode* head &#x3D; new ListNode(0);
+        ListNode* r &#x3D; head;
+        int index &#x3D; 0;
+        while(l1!&#x3D;NULL || l2!&#x3D;NULL || index!&#x3D;0)&#123;
+            int sum &#x3D; 0;
+            if(l1)&#123;
+                sum+&#x3D;l1-&gt;val;
+            &#125;
+            if(l2)&#123;
+                sum+&#x3D;l2-&gt;val;
+            &#125;
+            sum+&#x3D;index;
+            ListNode* temp &#x3D; new ListNode(sum%10);
+            index &#x3D; sum&#x2F;10;
+            head-&gt;next &#x3D; temp;
+            head &#x3D; temp;
+            if(l1)&#123;
+                l1 &#x3D; l1-&gt;next;
+            &#125;
+            if(l2)&#123;
+                l2 &#x3D; l2-&gt;next;
+            &#125;  
+        &#125;
+        return r-&gt;next;
+    &#125;
+&#125;;</code></pre>
+
+<blockquote>
+<p>执行用时 :32 ms, 在所有 C++ 提交中击败了50.51% 的用户<br>内存消耗 :9.3 MB, 在所有 C++ 提交中击败了100.00%的用户</p>
+</blockquote>
+<hr>
+<h3 id="30-3-无重复字符的最长子串-难度：中等"><a href="#30-3-无重复字符的最长子串-难度：中等" class="headerlink" title="30 3. 无重复字符的最长子串  难度：中等"></a>30 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/">3. 无重复字符的最长子串  </a>难度：中等</h3><p>滑动窗口经典题，本想用map记录位置，后面还是改成用set只记录值，然后设一个left指针记录起始位置。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int lengthOfLongestSubstring(string s) &#123;
+        unordered_set&lt;char&gt; st;
+        int maxlen &#x3D; 0;
+        int left &#x3D; 0, i;
+        for(i&#x3D;0;i&lt;s.size();i++)&#123;
+            if(st.find(s[i]) &#x3D;&#x3D; st.end())&#123;
+                st.insert(s[i]);
+            &#125;
+            else&#123;
+                maxlen &#x3D; max(maxlen, i - left);
+                while(s[left] !&#x3D; s[i])&#123;
+                    st.erase(s[left]);
+                    left++;
+                &#125;
+                left++;
+            &#125;
+        &#125;
+        maxlen &#x3D; max(maxlen, i-left);
+        return maxlen;
+    &#125;
+&#125;;</code></pre>
+
+<blockquote>
+<p>执行用时 :40 ms, 在所有 C++ 提交中击败了36.23% 的用户<br>内存消耗 :9.2 MB, 在所有 C++ 提交中击败了78.89%的用户</p>
+</blockquote>
+<hr>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>miu</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="http://acbgzm.github.io/2020/04/22/leetcode-2/" title="leetcode记录 (2)">http://acbgzm.github.io/2020/04/22/leetcode-2/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2021/02/14/summary-2020/" rel="prev" title="什么都没做的2020"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">什么都没做的2020</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2020/04/16/leetcode-1/" rel="next" title="leetcode记录 (1)"><span class="post-nav-text">leetcode记录 (1)</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://utteranc.es/client.js" repo="ACBGZM/ACBGZM.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> miu</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>

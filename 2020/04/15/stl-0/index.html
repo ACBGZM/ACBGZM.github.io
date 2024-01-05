@@ -1,0 +1,569 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="miu"><meta name="copyright" content="miu"><meta name="generator" content="Hexo 6.3.0"><meta name="theme" content="hexo-theme-yun"><title>C++ STL快速上手 | 临时个人主页</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/favicon.ico"><link rel="mask-icon" href="/favicon.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"acbgzm.github.io","root":"/","title":"slowmotion","version":"1.10.9","mode":"time","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="最近在准备一个机试，就火速入门了C++ STL，来快速解决一些经典问题。在此做简单记录，目的是今后能用这篇文章快速捡起STL的最基本用法。笔记几乎全部来自《算法笔记》，题目来自codeup和pat。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ STL快速上手">
+<meta property="og:url" content="http://acbgzm.github.io/2020/04/15/stl-0/index.html">
+<meta property="og:site_name" content="临时个人主页">
+<meta property="og:description" content="最近在准备一个机试，就火速入门了C++ STL，来快速解决一些经典问题。在此做简单记录，目的是今后能用这篇文章快速捡起STL的最基本用法。笔记几乎全部来自《算法笔记》，题目来自codeup和pat。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-15T13:47:59.000Z">
+<meta property="article:modified_time" content="2022-01-26T07:47:28.170Z">
+<meta property="article:author" content="miu">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="miu"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="miu"><span class="site-author-status" title="永远相信美好的事情即将发生">🎸</span></a><div class="site-author-name"><a href="/about/">miu</a></div><span class="site-name">临时个人主页</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">16</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/lab" title="lab"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/ACBGZM" title="GitHub" target="_blank" style="color:#181717"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/10388034" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:ACBGZM@126.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:open-arm-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-vector"><span class="toc-text">1 vector</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">1.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">1.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">1.3 常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-vector%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">1.4 vector常见用途</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-set"><span class="toc-text">2 set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">2.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">2.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">2.3 常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-set%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">2.4 set常见用途</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-string"><span class="toc-text">3 string</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">3.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">3.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">3.3 常用函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-map"><span class="toc-text">4 map</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">4.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">4.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">4.3 常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-map%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">4.4 map常见用途</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-queue"><span class="toc-text">5 queue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">5.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">5.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">5.3 常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-queue%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">5.4 queue常见用途</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-priority-queue"><span class="toc-text">6 priority_queue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">6.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">6.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">6.3 常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-%E5%85%83%E7%B4%A0%E4%BC%98%E5%85%88%E7%BA%A7%E8%AE%BE%E7%BD%AE"><span class="toc-text">6.4 元素优先级设置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-1-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E8%AE%BE%E7%BD%AE"><span class="toc-text">6.4.1 基本数据类型的优先级设置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-2-%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E8%AE%BE%E7%BD%AE"><span class="toc-text">6.4.2 结构体的优先级设置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-3-%E4%B8%8Esort-%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">6.4.3 与sort()的比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-4-%E5%BC%95%E7%94%A8"><span class="toc-text">6.4.4 引用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-5-priority-queue%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">6.4.5 priority_queue常见用途</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-stack"><span class="toc-text">7 stack</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">7.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">7.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">7.3 常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-4-stack%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">7.4 stack常见用途</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-5-%E7%BB%83%E4%B9%A0-%E6%8B%AC%E5%8F%B7%E5%8C%B9%E9%85%8D"><span class="toc-text">7.5 练习-括号匹配</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-pair"><span class="toc-text">8 pair</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-%E5%AE%9A%E4%B9%89"><span class="toc-text">8.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-%E5%85%83%E7%B4%A0%E8%AE%BF%E9%97%AE"><span class="toc-text">8.2 元素访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">8.3 常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-pair%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">8.4 pair常见用途</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-algorithm%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%8B%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-text">9 algorithm头文件下的常用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-1-max-%E3%80%81min-%E3%80%81abs"><span class="toc-text">9.1 max()、min()、abs()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-swap"><span class="toc-text">9.2 swap()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-reverse"><span class="toc-text">9.3 reverse()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-4-next-permutation"><span class="toc-text">9.4 next_permutation()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-5-fill"><span class="toc-text">9.5 fill()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-6-sort"><span class="toc-text">9.6 sort()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PAT-A1025"><span class="toc-text">PAT_A1025  </span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-7-lower-bound-%E5%92%8Cupper-bound"><span class="toc-text">9.7 lower_bound()和upper_bound()</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://acbgzm.github.io/2020/04/15/stl-0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="miu"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="临时个人主页"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">C++ STL快速上手</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2020-04-15 21:47:59" itemprop="dateCreated datePublished" datetime="2020-04-15T21:47:59+08:00">2020-04-15</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">4.1k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">19m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%AC%94%E8%AE%B0/" style="--text-color:dimgray" itemprop="url" rel="index"><span itemprop="text">笔记</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E7%AE%97%E6%B3%95/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">算法</span></a><a class="tag-item" href="/tags/C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">C++</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>最近在准备一个机试，就火速入门了C++ STL，来快速解决一些经典问题。在此做简单记录，目的是今后能用这篇文章快速捡起STL的最基本用法。笔记几乎全部来自《算法笔记》，题目来自codeup和pat。</p>
+<span id="more"></span>
+<hr>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><a href="#1-vector">vector</a><br><a href="#2-set">set</a><br><a href="#3-string">string</a><br><a href="#4-map">map</a><br><a href="#5-queue">queue</a><br><a href="#6-priorityqueue">priority_queue</a><br><a href="#7-stack">stack</a><br><a href="#8-pair">pair</a><br><a href="#9-algorithm%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%8B%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0">algorithm头文件下的函数</a></p>
+<h2 id="1-vector"><a href="#1-vector" class="headerlink" title="1 vector"></a>1 vector</h2><p><strong>变长数组</strong></p>
+<h4 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;vector&gt;
+using namespace std;
+vector&lt;int&gt; name;
+vector&lt;node&gt; name;	&#x2F;&#x2F; 节点数组
+vector&lt;vector&lt;int&gt; &gt; name;	&#x2F;&#x2F;二维数组
+vector&lt;int&gt; vi[100];	&#x2F;&#x2F;vector数组，长度100，每个vector变长</code></pre>
+
+<h4 id="1-2-元素访问"><a href="#1-2-元素访问" class="headerlink" title="1.2 元素访问"></a>1.2 元素访问</h4><p>vector可以用下标和迭代器访问。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">vector&lt;int&gt; vname;
+vname.push_back(1);
+vname.push_back(1);
+vname.push_back(1);
+vname.push_back(1);
+
+int x &#x3D; vname[0];	&#x2F;&#x2F; 下标访问
+
+vector&lt;int&gt;::iterator it &#x3D; vname.begin();
+int x &#x3D; *it;	&#x2F;&#x2F; 迭代器访问
+int y &#x3D; *(it+3);</code></pre>
+
+<p>在常用STL容器里，只有在vector和string中，允许使用 name.begin()+3 这种迭代器加整数的访问方式。</p>
+<h4 id="1-3-常用函数"><a href="#1-3-常用函数" class="headerlink" title="1.3 常用函数"></a>1.3 常用函数</h4><ul>
+<li>push_back(x)：容器尾插入元素</li>
+<li>pop_back()：容器尾部移除元素</li>
+<li>size()</li>
+<li>clear()</li>
+<li>insert(it, x)：在迭代器处插入元素</li>
+<li>erase(it)：删除迭代器处元素</li>
+<li>erase(first, last)：删除[first, last)元素</li>
+</ul>
+<h4 id="1-4-vector常见用途"><a href="#1-4-vector常见用途" class="headerlink" title="1.4 vector常见用途"></a>1.4 vector常见用途</h4><ul>
+<li>代替数组</li>
+<li>用邻接表存储图</li>
+</ul>
+<hr>
+<h2 id="2-set"><a href="#2-set" class="headerlink" title="2 set"></a>2 set</h2><p><strong>自动排序、不含重复元素的容器</strong></p>
+<h4 id="2-1-定义"><a href="#2-1-定义" class="headerlink" title="2.1 定义"></a>2.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;set&gt;
+using namespace std;
+set&lt;int&gt; name;
+set&lt;node&gt; name;
+set&lt;int&gt; a[100];	&#x2F;&#x2F;100个set容器组成的数组</code></pre>
+
+<h4 id="2-2-元素访问"><a href="#2-2-元素访问" class="headerlink" title="2.2 元素访问"></a>2.2 元素访问</h4><p>与vector不同，set只能用迭代器访问。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">set&lt;int&gt; name;
+set.insert(3);
+
+set&lt;int&gt;::iterator it &#x3D; name.begin();
+int x &#x3D; *it;	&#x2F;&#x2F; 迭代器访问</code></pre>
+
+<h4 id="2-3-常用函数"><a href="#2-3-常用函数" class="headerlink" title="2.3 常用函数"></a>2.3 常用函数</h4><ul>
+<li>insert(x)：插入元素</li>
+<li>find(value)：返回set中对应值为value的迭代器</li>
+<li>size()</li>
+<li>clear()</li>
+<li>erase(it)：删除迭代器处元素</li>
+<li>erase(value)：删除值为value的元素</li>
+<li>erase(first, last)：删除[first, last)内所有元素</li>
+</ul>
+<h4 id="2-4-set常见用途"><a href="#2-4-set常见用途" class="headerlink" title="2.4 set常见用途"></a>2.4 set常见用途</h4><ul>
+<li>自动去重并按升序排序</li>
+</ul>
+<hr>
+<h2 id="3-string"><a href="#3-string" class="headerlink" title="3 string"></a>3 string</h2><p><strong>字符串</strong></p>
+<h4 id="3-1-定义"><a href="#3-1-定义" class="headerlink" title="3.1 定义"></a>3.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;set&gt;
+using namespace std;
+string str1;
+string str2 &#x3D; &quot;abc&quot;;</code></pre>
+
+<h4 id="3-2-元素访问"><a href="#3-2-元素访问" class="headerlink" title="3.2 元素访问"></a>3.2 元素访问</h4><p>string容器可以用下标或迭代器访问。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">string str &#x3D; &quot;abcd&quot;;
+for(int i&#x3D;0;i&lt;str.length();i++)&#123;
+	c &#x3D; str[i];	&#x2F;&#x2F; 下标访问
+&#125;
+for(string::iterator it &#x3D; str.begin();it!&#x3D;str.end();it++)&#123;
+	c &#x3D; *it;	&#x2F;&#x2F;迭代器访问。一般用不到，但erase()和insert()要求以迭代器作为参数。
+&#125;</code></pre>
+<p>输出方式</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;&#x2F; 读入和输出整个字符串，只能用cin和cout
+cin&gt;&gt;str;
+cout&lt;&lt;str;
+&#x2F;&#x2F; c_str()将字符串转换成字符数组，用于printf输出
+printf(&quot;%s&quot;, str.c_str());</code></pre>
+<h4 id="3-3-常用函数"><a href="#3-3-常用函数" class="headerlink" title="3.3 常用函数"></a>3.3 常用函数</h4><ul>
+<li>加法运算符：+ 和 +&#x3D;</li>
+<li>比较运算符：&#x3D;、!&#x3D;、&lt;、&gt;&#x3D;等。”aa”&lt;”aaa”，”b”&gt;”a”</li>
+<li>size()或length()</li>
+<li>clear()</li>
+<li>insert(pos, string)：在pos位置插入string，pos是下标</li>
+<li>insert(it, it2, it3)：把字符串[it2, it3)插入到it位置</li>
+<li>erase(it)：删除迭代器处字符</li>
+<li>erase(first, last)：删除[first, last)内所有字符</li>
+<li>erase(pos, length)：删除pos开始length个字符</li>
+<li>substr(pos, len)：返回从pos开始length长度的子串</li>
+<li>find(str)：如果str是字符串的子串，返回其第一次出现的位置。如果不是子串，返回string::npos。</li>
+<li>string::npos:作为find函数失配时的返回值</li>
+<li>replace(pos, len, str2)：从pos位置开始len长度的子串替换为str2</li>
+<li>replace(it1, it2, str2)：[it1, it2)子串替换为str2</li>
+</ul>
+<hr>
+<h2 id="4-map"><a href="#4-map" class="headerlink" title="4 map"></a>4 map</h2><p><strong>映射</strong></p>
+<h4 id="4-1-定义"><a href="#4-1-定义" class="headerlink" title="4.1 定义"></a>4.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;map&gt;
+using namespace std;
+map&lt;string, int&gt; mp;	&#x2F;&#x2F; string到int的映射
+map&lt;set&lt;int&gt;, string&gt; mp;	&#x2F;&#x2F; set到string的映射</code></pre>
+
+<h4 id="4-2-元素访问"><a href="#4-2-元素访问" class="headerlink" title="4.2 元素访问"></a>4.2 元素访问</h4><p>用下标访问map，可以参考数组（int到int的映射）的访问的格式。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">map&lt;char, int&gt; mp;
+mp[&#39;c&#39;] &#x3D; 20;
+c &#x3D; mp[&#39;c&#39;];	&#x2F;&#x2F; 用下标访问</code></pre>
+
+<p>用迭代器访问map，通过一个it访问键和值两个元素。it-&gt;first访问键，it-&gt;second访问值。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">map&lt;char, int&gt; mp;
+mp[&#39;b&#39;] &#x3D; 120;
+mp[&#39;a&#39;] &#x3D; 100;
+mp[&#39;c&#39;] &#x3D; 140;
+for(map&lt;char, int&gt;::iterator it &#x3D; mp.begin(); it!&#x3D; mp.end(); it++)&#123;
+	printf(&quot;%c %d\n&quot;,it-&gt;first, it-&gt;second);
+&#125;</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>a 100<br>b 120<br>c 140<br>map内部会以键值从小到大自动排序。map和set内部都是使用红黑树实现的。</p>
+</blockquote>
+<h4 id="4-3-常用函数"><a href="#4-3-常用函数" class="headerlink" title="4.3 常用函数"></a>4.3 常用函数</h4><ul>
+<li>find(key)：返回键为key的迭代器 <code>mp.find(&#39;a&#39;)</code></li>
+<li>查找：<code>if(mp.find(key)!=mp.end())</code></li>
+<li>size()</li>
+<li>clear()</li>
+<li>erase(it)：删除迭代器处元素</li>
+<li>erase(key)：删除值key为键的元素</li>
+<li>erase(first, last)：删除[first, last)内所有元素</li>
+</ul>
+<h4 id="4-4-map常见用途"><a href="#4-4-map常见用途" class="headerlink" title="4.4 map常见用途"></a>4.4 map常见用途</h4><ul>
+<li>需要建立映射的场合</li>
+<li>判断大整数或其他类型数据是否存在，可以把map当成bool数组使用</li>
+</ul>
+<hr>
+<h2 id="5-queue"><a href="#5-queue" class="headerlink" title="5 queue"></a>5 queue</h2><p><strong>队列</strong></p>
+<h4 id="5-1-定义"><a href="#5-1-定义" class="headerlink" title="5.1 定义"></a>5.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;queue&gt;
+using namespace std;
+queue&lt;int&gt; name;</code></pre>
+
+<h4 id="5-2-元素访问"><a href="#5-2-元素访问" class="headerlink" title="5.2 元素访问"></a>5.2 元素访问</h4><p>只能通过front()来访问队首元素，或者back()访问队尾元素。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">queue&lt;int&gt; q;
+q.push(1);
+q.push(2);
+q.push(3);
+printf(&quot;%d %d&quot;, q.front(), q.back());</code></pre>
+<p>输出结果</p>
+<blockquote>
+<p>1 3</p>
+</blockquote>
+<p>比较好记：谁先来排队，谁就站在队头。</p>
+<h4 id="5-3-常用函数"><a href="#5-3-常用函数" class="headerlink" title="5.3 常用函数"></a>5.3 常用函数</h4><ul>
+<li>push(x)：x入队</li>
+<li>front(), back()：返回队首和队尾元素</li>
+<li>pop()：队首元素出队</li>
+<li>empty()：检测是否为空</li>
+<li>size()</li>
+</ul>
+<h4 id="5-4-queue常见用途"><a href="#5-4-queue常见用途" class="headerlink" title="5.4 queue常见用途"></a>5.4 queue常见用途</h4><ul>
+<li>广度优先搜索</li>
+<li>注意：使用front()和pop()函数前，先用empty()判断非空。</li>
+</ul>
+<hr>
+<h2 id="6-priority-queue"><a href="#6-priority-queue" class="headerlink" title="6 priority_queue"></a>6 priority_queue</h2><p><strong>内部按照优先级排序的队列</strong></p>
+<h4 id="6-1-定义"><a href="#6-1-定义" class="headerlink" title="6.1 定义"></a>6.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;queue&gt;
+using namespace std;
+priority_queue&lt;typename&gt; name;</code></pre>
+
+<h4 id="6-2-元素访问"><a href="#6-2-元素访问" class="headerlink" title="6.2 元素访问"></a>6.2 元素访问</h4><p>优先队列没有front()函数和back()函数，只能通过top()函数访问队首元素（也可以称为堆顶元素），也就是优先级最高的元素。</p>
+<p><code>printf(&quot;%d&quot;, name.top());</code></p>
+<h4 id="6-3-常用函数"><a href="#6-3-常用函数" class="headerlink" title="6.3 常用函数"></a>6.3 常用函数</h4><ul>
+<li><code>name.push(x);</code>将x入队，复杂度O(logN)</li>
+<li><code>name.pop();</code>队首元素出队，复杂度O(logN)</li>
+<li><code>typename x = name.top();</code>获得队首元素，复杂度O(1)</li>
+<li><code>name.empty();</code></li>
+<li><code>name.size()</code></li>
+</ul>
+<h4 id="6-4-元素优先级设置"><a href="#6-4-元素优先级设置" class="headerlink" title="6.4 元素优先级设置"></a>6.4 元素优先级设置</h4><h5 id="6-4-1-基本数据类型的优先级设置"><a href="#6-4-1-基本数据类型的优先级设置" class="headerlink" title="6.4.1 基本数据类型的优先级设置"></a>6.4.1 基本数据类型的优先级设置</h5><p>对于int型、double型、char型，优先队列的默认设置是数字越大优先级越高。</p>
+<p>也可以在定义过程中设置优先队列的优先级:</p>
+<p><code>priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt; &gt; pq;</code></p>
+<p>其中vector&lt;int&gt;填写的是来承载底层数据结构heap的容器；第三个参数greater&lt;int&gt;则是对第一个参数的比较类，<strong>less&lt;int&gt;表示数字大的优先级大，greater&lt;int&gt;表示数字小的优先级大。</strong></p>
+<h5 id="6-4-2-结构体的优先级设置"><a href="#6-4-2-结构体的优先级设置" class="headerlink" title="6.4.2 结构体的优先级设置"></a>6.4.2 结构体的优先级设置</h5><pre class="language-C++" data-language="C++"><code class="language-C++">struct Student&#123;
+    string name;
+    int score;
+    friend bool operator &lt; (Student s1, Student s2)&#123;
+        return s1.score &lt; s2.score;
+    &#125;
+&#125;;</code></pre>
+
+<p>定义友元函数，重载“&lt;”运算符（<strong>重载大于号会编译错误，其他符号可以由小于号代替，即s1 &gt; s2等价于判断s2 &lt; s1，s1 &#x3D;&#x3D; s2等价于判断!(s1 &lt; s2)&amp;&amp;!(s2 &lt; s1)</strong>)。</p>
+<p>函数内部“return s1.score &lt; s2.score”，重载后小于号还是小于号的作用。此时Student类型的优先队列，内部是分数高的学生优先级高。</p>
+<p><code>priority_queue&lt;Student&gt; pq;</code></p>
+<p>同理，如果想要低分优先级高，把return中的小于号改为大于号即可。</p>
+<h5 id="6-4-3-与sort-的比较"><a href="#6-4-3-与sort-的比较" class="headerlink" title="6.4.3 与sort()的比较"></a>6.4.3 与sort()的比较</h5><p>优先队列的重载和排序函数类似，都是由两个变量作为参数，return了true或false作为大小关系。</p>
+<p>效果上，大小规则是相反的。在sort()中，如果return s1.score&gt;s2.score，是按照分数由大到小排列；在优先队列中，则是把小的分数元素放到队首。原因在于：优先队列默认规则是大的数优先级高，重载小于号为相反（s1.score&gt;s2.score），只是把默认的规则反向了一下。</p>
+<p>有没有办法跟sort()中的cmp函数那样写在结构体外面呢?</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">struct Student&#123;
+    string name;
+    int score;
+&#125;;
+struct cmp&#123;
+    bool operator () (Student s1, Student s2)&#123;
+        return s1.score &gt; s2.score;
+    &#125;
+&#125;;</code></pre>
+
+<p>在这种情况下，使用第二种定义方法定义优先队列：</p>
+<p><code>priority_queue&lt;Student, vector&lt;Student&gt;, cmp&gt; pq;</code></p>
+<p>即便是基本数据类型或者其他STL容器（如set），也可以通过以上方法定义优先级。</p>
+<h5 id="6-4-4-引用"><a href="#6-4-4-引用" class="headerlink" title="6.4.4 引用"></a>6.4.4 引用</h5><p>最后，如果结构体内的数据较为庞大（例如出现了数组、字符串），可以使用引用来提高效率。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">struct Student&#123;
+    string name;
+    int score;
+    friend bool operator &lt; (const Student &amp;s1, const Student &amp;s2)&#123;
+        return s1.score &gt; s2.score;
+    &#125;
+&#125;;
+priority_queue&lt;Student&gt; pq;</code></pre>
+
+<p>或</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">struct Student&#123;
+    string name;
+    int score;
+&#125;;
+struct cmp&#123;
+    bool operator () (const Student &amp;s1, const Student &amp;s2)&#123;
+        return s1.score &gt; s2.score;
+    &#125;
+&#125;;
+priority_queue&lt;Student, vector&lt;Student&gt;, cmp&gt; pq;</code></pre>
+
+<h4 id="6-4-5-priority-queue常见用途"><a href="#6-4-5-priority-queue常见用途" class="headerlink" title="6.4.5 priority_queue常见用途"></a>6.4.5 priority_queue常见用途</h4><ul>
+<li>解决一些贪心问题</li>
+<li>对Dijkstra算法进行优化（优先队列本质是堆）。</li>
+<li>注意：使用top()前必须用empty()判断队列非空。</li>
+</ul>
+<hr>
+<h2 id="7-stack"><a href="#7-stack" class="headerlink" title="7 stack"></a>7 stack</h2><p><strong>后进先出的STL容器</strong></p>
+<h4 id="7-1-定义"><a href="#7-1-定义" class="headerlink" title="7.1 定义"></a>7.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;stack&gt;
+using namespace std;
+stack&lt;int&gt; name;</code></pre>
+
+<h4 id="7-2-元素访问"><a href="#7-2-元素访问" class="headerlink" title="7.2 元素访问"></a>7.2 元素访问</h4><p>栈只能通过top()函数访问栈顶元素。</p>
+<p><code>printf(&quot;%d&quot;, name.top());</code></p>
+<h4 id="7-3-常用函数"><a href="#7-3-常用函数" class="headerlink" title="7.3 常用函数"></a>7.3 常用函数</h4><ul>
+<li><code>name.push(x);</code>将x入栈，复杂度O(1)</li>
+<li><code>name.pop();</code>栈顶元素出栈，复杂度O(1)</li>
+<li><code>typename x = name.top();</code>获得队首元素，复杂度O(1)</li>
+<li><code>name.empty();</code></li>
+<li><code>name.size()</code></li>
+</ul>
+<h4 id="7-4-stack常见用途"><a href="#7-4-stack常见用途" class="headerlink" title="7.4 stack常见用途"></a>7.4 stack常见用途</h4><ul>
+<li>解决递归问题</li>
+</ul>
+<h4 id="7-5-练习-括号匹配"><a href="#7-5-练习-括号匹配" class="headerlink" title="7.5 练习-括号匹配"></a>7.5 练习-<a target="_blank" rel="noopener" href="http://codeup.cn/problem.php?cid=100000602&pid=1">括号匹配</a></h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;stack&gt;
+#include&lt;string&gt;
+using namespace std;
+
+int main()&#123;
+	int n;
+	scanf(&quot;%d&quot;,&amp;n);
+	getchar();
+	string s;
+	stack&lt;char&gt; st;
+	while(n--)&#123;
+		getline(cin,s);
+		int len&#x3D;s.size();
+		bool flag&#x3D;true;
+		for(int i&#x3D;0;i&lt;len;i++)&#123;
+			if(s[i]&#x3D;&#x3D;&#39;(&#39; || s[i]&#x3D;&#x3D;&#39;[&#39; || s[i]&#x3D;&#x3D;&#39;&#123;&#39;)&#123;
+				st.push(s[i]);
+			&#125;
+			else if(s[i]&#x3D;&#x3D;&#39;)&#39; || s[i]&#x3D;&#x3D;&#39;]&#39; || s[i]&#x3D;&#x3D;&#39;&#125;&#39;)&#123;
+				if(st.empty()&#x3D;&#x3D;true)&#123;
+					flag&#x3D;false;	&#x2F;&#x2F;单独的后括号 
+					break;
+				&#125;
+				char c &#x3D; st.top();	&#x2F;&#x2F;pop()是void类型，需要用top()返回栈顶元素 
+				st.pop();
+				if(c&#x3D;&#x3D;&#39;[&#39;&amp;&amp;s[i]&#x3D;&#x3D;&#39;]&#39; || c&#x3D;&#x3D;&#39;(&#39;&amp;&amp;s[i]&#x3D;&#x3D;&#39;)&#39; || c&#x3D;&#x3D;&#39;&#123;&#39;&amp;&amp;s[i]&#x3D;&#x3D;&#39;&#125;&#39;)&#123;
+					continue;
+				&#125;
+				else&#123;
+					flag&#x3D;false;	&#x2F;&#x2F;不匹配 
+					break;
+				&#125;
+			&#125;
+		&#125;
+		if(flag&#x3D;&#x3D;true&amp;&amp;st.empty()&#x3D;&#x3D;true)&#123;
+			printf(&quot;yes\n&quot;);
+		&#125;
+		else&#123;
+			printf(&quot;no\n&quot;);
+		&#125;
+		while(st.empty()!&#x3D;true)&#123;
+			st.pop();
+		&#125;
+		
+	&#125;
+	return 0;
+&#125;
+&#x2F;*
+有一种更好的方法：
+使用map创建char到int的对应关系，
+通过两个括号对应的int相加是否等于某一定值，
+判断两个括号是否匹配。
+如：
+map&lt;char&gt; list;
+list中依次存储：&#123; 1, ( 2, [ 3, ] 4, ) 5, &#125; 6
+判断相加是否为7
+*&#x2F;</code></pre>
+
+<hr>
+<h2 id="8-pair"><a href="#8-pair" class="headerlink" title="8 pair"></a>8 pair</h2><p><strong>可以看作一个内部有两个元素的结构体</strong></p>
+<h4 id="8-1-定义"><a href="#8-1-定义" class="headerlink" title="8.1 定义"></a>8.1 定义</h4><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;utility&gt;
+using namespace std;
+pair&lt;typename1, typename2&gt; name;</code></pre>
+<p>由于map内部实现涉及pair，因此添加map头文件后会自动添加utility头文件。</p>
+<p>在定义时初始化，如：<br><code>pair&lt;string, int&gt; p(&quot;str&quot;, 100);</code></p>
+<p>在代码中临时构建一个pair，有以下两种方法：</p>
+<ul>
+<li><code>p = pair&lt;string, int&gt;(&quot;str&quot;, 100)</code></li>
+<li><code>p = make_pair(&quot;str&quot;, 100)</code></li>
+</ul>
+<h4 id="8-2-元素访问"><a href="#8-2-元素访问" class="headerlink" title="8.2 元素访问"></a>8.2 元素访问</h4><p>pair中只有两个元素，分别是first和second。按正常结构体的方式访问即可。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">pair&lt;string, int&gt; p;
+p.first &#x3D; &quot;this is a pair&quot;;
+p.second &#x3D;  10;
+
+p &#x3D; make_pair(&quot;this is a pair&quot;, 10);
+
+p &#x3D; pair&lt;string, int&gt;(&quot;this is a pair&quot;, 10);
+
+cout&lt;&lt;p.first&lt;&lt;&#39; &#39;&lt;&lt;p.second&lt;&lt;endl;</code></pre>
+
+<h4 id="8-3-常用函数"><a href="#8-3-常用函数" class="headerlink" title="8.3 常用函数"></a>8.3 常用函数</h4><p>  比较操作数。先比较first大小，如果相同再比较second大小。<br>  <pre class="language-C++" data-language="C++"><code class="language-C++">p1 &#x3D; pair&lt;int, int&gt;(1,3);
+p2 &#x3D; pair&lt;int, int&gt;(1,2);
+if(p1 &gt;&#x3D; p2)&#123;&#125;
+else if(p1 &lt; p2)&#123;&#125;</code></pre></p>
+<h4 id="8-4-pair常见用途"><a href="#8-4-pair常见用途" class="headerlink" title="8.4 pair常见用途"></a>8.4 pair常见用途</h4><ul>
+<li>用来代替二元结构体。不用自己写构造函数了。</li>
+<li>作为<strong>map的键值对</strong>进行插入、迭代等操作。如：<pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;map&gt;
+using namespace std;
+int main()&#123;
+	map&lt;string, int&gt; mp;
+	mp.insert(make_pair(&quot;this is a pair&quot;, 100));
+	mp.insert(pair&lt;string, int&gt;(&quot;another pair&quot;, 200));
+	for(map&lt;string, int&gt;::iterator it &#x3D; mp.begin(); it !&#x3D; mp.end(); it++)&#123;
+		cout &lt;&lt; it-&gt;first &lt;&lt; &#39; &#39; &lt;&lt; it-&gt;second &lt;&lt; endl;
+	&#125;
+&#125;</code></pre></li>
+<li>注意，用迭代器操作是it-&gt;first，用实体操作是p.first。可以把迭代器想成指针。</li>
+</ul>
+<hr>
+<h2 id="9-algorithm头文件下的常用函数"><a href="#9-algorithm头文件下的常用函数" class="headerlink" title="9 algorithm头文件下的常用函数"></a>9 algorithm头文件下的常用函数</h2><p><strong>需要添加using namespace std;</strong></p>
+<h4 id="9-1-max-、min-、abs"><a href="#9-1-max-、min-、abs" class="headerlink" title="9.1 max()、min()、abs()"></a>9.1 max()、min()、abs()</h4><p>max(x, y)和min(x, y)</p>
+<p>x和y可以是浮点数，但类型必须相同。</p>
+<p>abs(x)，x为整形。浮点数的绝对值使用cmath头文件下的fabs()函数。</p>
+<h4 id="9-2-swap"><a href="#9-2-swap" class="headerlink" title="9.2 swap()"></a>9.2 swap()</h4><p>swap(x, y)，交换x和y的值。</p>
+<h4 id="9-3-reverse"><a href="#9-3-reverse" class="headerlink" title="9.3 reverse()"></a>9.3 reverse()</h4><p>reverse(it1, it2)可以将<strong>数组指针在[it1, it2)之间的元素</strong>或<strong>容器的迭代器在[it1, it2)范围内的元素</strong>进行反转。</p>
+<p>例一：</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">int a[10] &#x3D; &#123; 1, 2, 3, 4, 5, 6 &#125;;
+reverse(a, a+4);
+for(int i&#x3D;0;i&lt;6;i++) printf(&quot;%d &quot;,a[i]);</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>4 3 2 1 5 6</p>
+</blockquote>
+<p>例二：</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">string str &#x3D; &quot;abcdefghi&quot;;
+reverse(str.begin()+2, str.begin()+6);
+printf(&quot;%s&quot;,str.c_str());</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>abfedcghi</p>
+</blockquote>
+<h4 id="9-4-next-permutation"><a href="#9-4-next-permutation" class="headerlink" title="9.4 next_permutation()"></a>9.4 next_permutation()</h4><p>next_permutation()给出一个序列在全排列中的下一个序列。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">int a[3] &#x3D; &#123;1, 2, 3&#125;;
+do&#123;
+	printf(&quot;%d %d %d\n&quot;, a[0], a[1], a[2]);
+&#125;while(next_permutation(a, a+3));</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>1 2 3<br>1 3 2<br>2 1 3<br>2 3 1<br>3 1 2<br>3 2 1</p>
+</blockquote>
+<h4 id="9-5-fill"><a href="#9-5-fill" class="headerlink" title="9.5 fill()"></a>9.5 fill()</h4><p>fill()可以把数组或容器中的某一段区间赋某个相同的值。和memset不同，这里的赋值可以是数组类型对应范围中的任意值。</p>
+<p>参数写法依然是左闭右开。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">int a[10] &#x3D; &#123; 1, 2, 3, 4, 5, 6 &#125;;
+fill(a, a+4, 100);
+for(int i&#x3D;0;i&lt;6;i++) printf(&quot;%d &quot;,a[i]);</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>100 100 100 100 5 6</p>
+</blockquote>
+<h4 id="9-6-sort"><a href="#9-6-sort" class="headerlink" title="9.6 sort()"></a>9.6 sort()</h4><p>sort(首元素地址, 尾元素的下一个地址, 比较函数(缺省则默认递增序))</p>
+<p>sort()用的比较多，直接贴一下结构体排序的代码吧。</p>
+<h3 id="PAT-A1025"><a href="#PAT-A1025" class="headerlink" title="PAT_A1025  "></a><a target="_blank" rel="noopener" href="https://pintia.cn/problem-sets/994805342720868352/problems/994805474338127872">PAT_A1025  </a></h3><pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+struct grade&#123;
+	char num[20];
+	int score;
+	int final_rank;
+	int location_number;
+	int local_rank;
+	grade()&#123;
+	&#125;
+	grade(char _num[],int _score)&#123;
+		strcpy(num,_num);
+		score&#x3D;_score;
+	&#125;
+&#125;;
+bool cmp(grade g1,grade g2)&#123;
+	if(g1.score!&#x3D;g2.score) return g1.score&gt;g2.score;
+	else return strcmp(g1.num,g2.num)&lt;0;
+&#125;
+int main()&#123;
+	int n,m;
+	int i,j;
+	grade stu[30010];
+	char num[20];
+	int score;
+	int count&#x3D;0;
+	scanf(&quot;%d&quot;,&amp;n);
+	for(i&#x3D;1;i&lt;&#x3D;n;i++)&#123;
+		scanf(&quot;%d&quot;,&amp;m);
+		int temp&#x3D;count;
+		for(j&#x3D;0;j&lt;m;j++)&#123;
+			scanf(&quot;%s%d&quot;,num,&amp;score);
+			stu[count]&#x3D;grade(num,score);
+			stu[count].location_number&#x3D;i;
+			count++;	
+		&#125;
+		sort(stu+temp,stu+count,cmp);
+		stu[0+temp].local_rank&#x3D;1;
+		for(j&#x3D;1;j&lt;m;j++)&#123;
+			if(stu[j+temp].score&lt;stu[j+temp-1].score)&#123;
+				stu[j+temp].local_rank&#x3D;j+1;
+			&#125;
+			else&#123;
+				stu[j+temp].local_rank&#x3D;stu[j+temp-1].local_rank;
+			&#125;
+		&#125;
+	&#125;
+	
+	sort(stu,stu+count,cmp);
+	stu[0].final_rank&#x3D;1;
+	for(j&#x3D;1;j&lt;count;j++)&#123;
+		if(stu[j].score&lt;stu[j-1].score)&#123;
+			stu[j].final_rank&#x3D;j+1;
+		&#125;
+		else&#123;
+			stu[j].final_rank&#x3D;stu[j-1].final_rank;
+		&#125;
+	&#125;
+	
+	printf(&quot;%d\n&quot;,count);
+	for(i&#x3D;0;i&lt;count;i++)
+		printf(&quot;%s %d %d %d\n&quot;,stu[i].num,stu[i].final_rank,stu[i].location_number,stu[i].local_rank);
+	return 0;
+&#125;</code></pre>
+
+<h4 id="9-7-lower-bound-和upper-bound"><a href="#9-7-lower-bound-和upper-bound" class="headerlink" title="9.7 lower_bound()和upper_bound()"></a>9.7 lower_bound()和upper_bound()</h4><p>两个函数均用在<strong>有序</strong>数组或容器中。</p>
+<p>lower_bound(first, last, val)用来寻找在数组或容器的[first, last)范围内第一个值<strong>大于等于</strong>val的元素的位置，返回指针或迭代器。</p>
+<p>upper_bound(first, last, val)找的是第一个值<strong>大于</strong>val的元素的位置。</p>
+<p>如果查不到则返回可以插入该元素的位置。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">int a[10] &#x3D; &#123;1, 2, 3, 3, 3, 5, 5, 5, 5, 5&#125;;
+&#x2F;&#x2F; -1
+int* lowerPos &#x3D; lower_bound(a, a+10, -1);
+int* upperPos &#x3D; upper_bound(a, a+10, -1);
+printf(&quot;%d %d\n&quot;, lowerPos - a, upperPos - a);
+&#x2F;&#x2F; 1
+lowerPos &#x3D; lower_bound(a, a+10, 1);
+upperPos &#x3D; upper_bound(a, a+10, 1);
+printf(&quot;%d %d\n&quot;, lowerPos - a, upperPos - a);
+&#x2F;&#x2F; 3
+lowerPos &#x3D; lower_bound(a, a+10, 3);
+upperPos &#x3D; upper_bound(a, a+10, 3);
+printf(&quot;%d %d\n&quot;, lowerPos - a, upperPos - a);
+&#x2F;&#x2F; 4
+lowerPos &#x3D; lower_bound(a, a+10, 4);
+upperPos &#x3D; upper_bound(a, a+10, 4);
+printf(&quot;%d %d\n&quot;, lowerPos - a, upperPos - a);
+&#x2F;&#x2F; 6
+lowerPos &#x3D; lower_bound(a, a+10, 6);
+upperPos &#x3D; upper_bound(a, a+10, 6);
+printf(&quot;%d %d\n&quot;, lowerPos - a, upperPos - a);</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>0 0<br>0 1<br>2 5<br>5 5<br>10 10</p>
+</blockquote>
+<hr>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>miu</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="http://acbgzm.github.io/2020/04/15/stl-0/" title="C++ STL快速上手">http://acbgzm.github.io/2020/04/15/stl-0/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2020/04/16/leetcode-1/" rel="prev" title="leetcode记录 (1)"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">leetcode记录 (1)</span></a></div><div class="post-nav-item"></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://utteranc.es/client.js" repo="ACBGZM/ACBGZM.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> miu</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>

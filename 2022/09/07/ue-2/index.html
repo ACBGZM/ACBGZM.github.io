@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="miu"><meta name="copyright" content="miu"><meta name="generator" content="Hexo 6.3.0"><meta name="theme" content="hexo-theme-yun"><title>【我看UE源码】（2）源码阅读支线之如何理解C++的const关键字？ | 临时个人主页</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/favicon.ico"><link rel="mask-icon" href="/favicon.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"acbgzm.github.io","root":"/","title":"slowmotion","version":"1.10.9","mode":"time","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="对（1）的补充，更多关于C++ const关键字的事情">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【我看UE源码】（2）源码阅读支线之如何理解C++的const关键字？">
+<meta property="og:url" content="http://acbgzm.github.io/2022/09/07/ue-2/index.html">
+<meta property="og:site_name" content="临时个人主页">
+<meta property="og:description" content="对（1）的补充，更多关于C++ const关键字的事情">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/ue-img/6.png">
+<meta property="article:published_time" content="2022-09-07T14:37:58.000Z">
+<meta property="article:modified_time" content="2022-09-08T02:50:04.483Z">
+<meta property="article:author" content="miu">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="游戏开发">
+<meta property="article:tag" content="UnrealEngine">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/ue-img/6.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="miu"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="miu"><span class="site-author-status" title="永远相信美好的事情即将发生">🎸</span></a><div class="site-author-name"><a href="/about/">miu</a></div><span class="site-name">临时个人主页</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">16</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/lab" title="lab"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/ACBGZM" title="GitHub" target="_blank" style="color:#181717"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/10388034" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:ACBGZM@126.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:open-arm-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#Const%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-text">Const的内存分配</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%A8%E5%B1%80const%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98"><span class="toc-text">全局const变量的内存</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B1%80%E9%83%A8const%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98"><span class="toc-text">局部const变量的内存</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#const%E5%92%8Cdefine"><span class="toc-text">const和define</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#const%EF%BC%8C%E5%BC%95%E7%94%A8%E4%BC%A0%E5%8F%82%EF%BC%8C%E5%B8%B8%E9%87%8F%E5%BC%95%E7%94%A8"><span class="toc-text">const，引用传参，常量引用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E4%BC%A0%E5%8F%82"><span class="toc-text">引用传参</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E5%BC%95%E7%94%A8"><span class="toc-text">常量引用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E5%BC%95%E7%94%A8%E4%BC%A0%E5%8F%82"><span class="toc-text">常量引用传参</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://acbgzm.github.io/2022/09/07/ue-2/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="miu"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="临时个人主页"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">【我看UE源码】（2）源码阅读支线之如何理解C++的const关键字？</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2022-09-07 22:37:58" itemprop="dateCreated datePublished" datetime="2022-09-07T22:37:58+08:00">2022-09-07</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">3.5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">13m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/UE%E6%BA%90%E7%A0%81/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">UE源码</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">C++</span></a><a class="tag-item" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">游戏开发</span></a><a class="tag-item" href="/tags/UnrealEngine/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">UnrealEngine</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><blockquote>
+<p>叠甲：仅为记录个人学习过程；内容很多是从别处看来的，在参考中列出；缺乏实践经验，有些地方纸上谈兵；难免有错误，敬请指出。</p>
+<p>系列目录：<a href="https://acbgzm.github.io/2022/06/18/ue-0/">【我看UE源码】（0）系列开篇 &amp; 目录</a></p>
+</blockquote>
+<h5 id="Const的内存分配"><a href="#Const的内存分配" class="headerlink" title="Const的内存分配"></a>Const的内存分配</h5><p>（接上文）</p>
+<p>对于上述通过指针、引用（也就是地址）来修改const变量的值，只对局部变量有效。</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">const int ga &#x3D; 1;
+
+int main()
+&#123;
+    int* pga &#x3D; const_cast&lt;int*&gt;(&amp;ga);
+	*pga &#x3D; 10;		&#x2F;&#x2F; 运行时报错
+	std::cout &lt;&lt; &quot;a:&quot; &lt;&lt; const_cast&lt;int*&gt;(&amp;a) &lt;&lt; &#39; &#39; &lt;&lt; a &lt;&lt; std::endl;
+    
+	int&amp; rga &#x3D; const_cast&lt;int&amp;&gt;(ga);
+	rga &#x3D; 20;		&#x2F;&#x2F; 运行时报错
+	std::cout &lt;&lt; &quot;a:&quot; &lt;&lt; const_cast&lt;int*&gt;(&amp;a) &lt;&lt; &#39; &#39; &lt;&lt; a &lt;&lt; std::endl;
+&#125;</code></pre>
+
+<p>如果进行上面代码中的操作，试图修改全局const变量的值，编译器不报错，但运行时在指针、引用赋值的地方报错：“引发了异常：写入访问权限冲突”。</p>
+<p>这是由C++ const的内存分配方式导致的。</p>
+<h6 id="全局const变量的内存"><a href="#全局const变量的内存" class="headerlink" title="全局const变量的内存"></a>全局const变量的内存</h6><p>const全局变量存放在.rodata段的Read Only Data也就是常量存储区（只读数据区），无法通过取地址方式修改，所以报错</p>
+<p>关键字修饰变量的内存存储方式如下：</p>
+<ul>
+<li>static：<ul>
+<li>static表示是静态变量，内存中只存在一份。<u>无论是全局变量还是局部变量都存储在全局&#x2F;静态区域，在编译期就为其分配内存，在程序结束时释放</u> </li>
+<li>类的static成员变量必须在类声明的外部进行初始化。初始化时不赋值就默认为0<ul>
+<li>全局数据区的变量都有默认初始值0，而动态数据区（堆区、栈区）变量的默认值不确定，一般是垃圾值</li>
+</ul>
+</li>
+<li>static成员变量属于类而不属于对象，在全局区分配内存，不占用对象的内存</li>
+<li>static成员变量不随着对象创建而分配内存，不随着对象销毁而释放内存</li>
+</ul>
+</li>
+<li>extern：在当前源文件声明全局变量，告知编译器去别的地方（其他文件，或本文件其他行）找定义</li>
+<li>const<ul>
+<li>const全局变量存储在只读数据段，编译期最初将其保存在<strong>符号表</strong>中，第一次使用时为其分配内存，在程序结束时释放</li>
+<li>const局部变量存储在栈中，代码块结束时释放（见下一节）</li>
+<li>const修饰的全局变量默认是内部链接，即<u>只在当前源文件有效</u>，不能直接用于其他源文件。<u>如果必须在其他源文件中使用只读的全局变量，需要加extern将变量转换成外部链接</u></li>
+</ul>
+</li>
+</ul>
+<h6 id="局部const变量的内存"><a href="#局部const变量的内存" class="headerlink" title="局部const变量的内存"></a>局部const变量的内存</h6><p>局部const变量的内存分配有一些争议，可以看看<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014157109/article/details/115350923">这篇文章</a>。据我尝试，跟这篇文章一样，VS2019对于基础类型赋值的const变量，release模式下不分配内存，debug模式下分配内存。</p>
+<p>一般来说，总结为：</p>
+<ul>
+<li>用基础类型赋值的const变量，放入符号表中，不会分配内存</li>
+<li>对const变量取地址的时候（&amp;a），给这个变量开辟空间</li>
+<li>当用变量给const初始化赋值时，直接给它开辟空间，不会放入符号表中</li>
+<li>自定义数据类型（结构体、类）的const对象，const数组等会分配内存空间</li>
+</ul>
+<p>举例：</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include&lt;iostream&gt;
+
+struct Student
+&#123;
+	int age;
+	char name[10];
+&#125;;
+
+int main()
+&#123;
+	const int a &#x3D; 10;	&#x2F;&#x2F; 用基础类型值初始化，a不分配内存，放到符号表里
+	int* pa &#x3D; const_cast&lt;int*&gt;(&amp;a);	&#x2F;&#x2F; 对a取地址，分配内存
+	*pa &#x3D; 20;
+	std::cout &lt;&lt; *pa &lt;&lt; &#39; &#39; &lt;&lt; a &lt;&lt; std::endl;	&#x2F;&#x2F; 由于编译器优化（见上篇），*pa&#x3D;20，a&#x3D;10
+
+	int b &#x3D; 30;
+	const int c &#x3D; b;	&#x2F;&#x2F; 用变量初始化，直接给c分配内存空间，不放入符号表
+	int* pc &#x3D; const_cast&lt;int*&gt;(&amp;c);
+	*pc &#x3D; 40;
+	std::cout &lt;&lt; *pc &lt;&lt; &#39; &#39; &lt;&lt; c &lt;&lt; std::endl;	&#x2F;&#x2F; 40 40
+
+	const Student stu &#x3D; &#123; 20, &quot;tom&quot; &#125;;	&#x2F;&#x2F; 自定义类型的const对象，分配内存
+	Student* pstu &#x3D; const_cast&lt;Student*&gt;(&amp;stu);
+	pstu-&gt;age &#x3D; 21;
+	std::cout &lt;&lt; pstu-&gt;age &lt;&lt; &#39; &#39; &lt;&lt; stu.age &lt;&lt; std::endl;	&#x2F;&#x2F; 21 21
+
+	return 0;
+&#125;</code></pre>
+
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/ue-img/6.png" style="zoom: 80%;" / loading="lazy">
+
+
+
+<h6 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h6><pre class="language-c++" data-language="c++"><code class="language-c++">const int a &#x3D; 3;	&#x2F;&#x2F; 全局const变量，符号表，使用时分配在常量区（只读数据段）
+int b &#x3D; 2;			&#x2F;&#x2F; 全局变量，分配在静态&#x2F;全局区
+static int c &#x3D; 1;	&#x2F;&#x2F; 静态全局变量，分配在静态&#x2F;全局区
+
+static int d;		&#x2F;&#x2F; 未初始化的静态全局变量，有初始值0
+int e;				&#x2F;&#x2F; 未初始化的全局变量，有初始值0
+
+int main()&#123;
+    static int f &#x3D; 4;	&#x2F;&#x2F; 初始化的静态局部变量，分配在静态&#x2F;全局区
+    static int g;		&#x2F;&#x2F; 未初始化的静态局部变量，分配在静态&#x2F;全局区，有初始值0
+    int h &#x3D; 5;			&#x2F;&#x2F; 初始化的局部变量，分配在栈区
+    int i;				&#x2F;&#x2F; 未初始化局部变量，分配在栈区，初始值是无效值
+    
+    const int j &#x3D; 6;	&#x2F;&#x2F; 局部const变量，放入符号表，取地址时分配在栈区
+    const int k &#x3D; h;	&#x2F;&#x2F; 局部const变量，直接分配在栈区
+&#125;</code></pre>
+
+
+
+
+
+<h5 id="const和define"><a href="#const和define" class="headerlink" title="const和define"></a>const和define</h5><p>const和define都可以用来定义常量，它们的区别是：</p>
+<ul>
+<li>const常量是编译期的概念<ul>
+<li>const常量有数据类型，宏没有。编译器可以对const进行类型安全检查</li>
+</ul>
+</li>
+<li>define宏定义作用在预处理期<ul>
+<li>程序在预处理阶段，把define定义的内容进行字符串替换。需要注意运算符优先级之类的边缘效应问题</li>
+<li>编译期不会进行数据类型检查</li>
+<li>程序运行时，系统不为define定义的常量分配内存</li>
+</ul>
+</li>
+</ul>
+<p>在C++里，如果想定义一个常量，最好用const而不是define。关于尽量使用const，可以看《Effective C++》的条款三。</p>
+<h5 id="const，引用传参，常量引用"><a href="#const，引用传参，常量引用" class="headerlink" title="const，引用传参，常量引用"></a>const，引用传参，常量引用</h5><p>在前文说过，可以把const看作是一种注释，对于局部const变量，不一定分配了内存，即使分配了或许也不在常量区。它只是让编译器注意不要直接修改其值，或者让程序员不要写直接修改值的代码。</p>
+<p>const还有一大作用，就是在函数传参时，传递常量的引用类型。这是C++机制上的一个问题，可以看看<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/473730909/answer/2026149928">这个答案下的回答</a>。</p>
+<h6 id="引用传参"><a href="#引用传参" class="headerlink" title="引用传参"></a>引用传参</h6><p>在函数传参时，如果传值，会新建值的对象并且进行拷贝，在函数中对新对象进行操作，不会影响原来的对象；而引用相当于给一块内存起一个别名，如果传递引用，就可以直接对实参进行操作。</p>
+<p>指针和引用基本上是一样的，区别在于：</p>
+<ul>
+<li>指针会分配内存，用来存储指向的内存地址。可以找到自身开辟的内存空间，可以通过<code>*</code>运算符解引用找到指向的内存单元。</li>
+<li>对于引用，虽然在C++底层处理时和指针处理方式相同，不过在用到引用变量的地方，会自动对其进行解引用，这一步骤系统默认进行，所以我们找不到引用自身开辟的内存单元，从这里看，引用好像没有开辟自身内存，只是给引用对象起了一个别名。</li>
+</ul>
+<p>关于指针、引用的区别和用它们传参，可以看<a target="_blank" rel="noopener" href="https://blog.csdn.net/IT_Quanwudi/article/details/84549968">这篇文章</a>。其中提到了使用引用的几个条件：</p>
+<ul>
+<li>引用必须在声明时就进行初始化</li>
+<li>引用初始化的变量一定要能取地址</li>
+<li>引用关系是不可变的</li>
+</ul>
+<p>以及引用和指针的区别，不是本篇重点，但八股会问。稍微记录一下</p>
+<ul>
+<li>从内存分配上看，指针是对象实体，程序为其分配内存空间。而引用从表面上看，只是变量的别名，程序不需要为其分配空间（实际上引用跟指针是一样存的，但在使用时会自动解引用，用起来像别名）</li>
+<li>引用使用时无需解引用，系统会为其自动进行解引用，而指针使用时需要手动解引用（<code>*</code>运算符）</li>
+<li>指向关系上，引用只能在定义时被初始化一次，之后则不可变。指针则可以改变</li>
+<li>引用不能为空（必须初始化），指针可以为空。</li>
+<li>“sizeof 引用”得到的是所指向的变量（对象）的大小，而“sizeof 指针”得到的是指针本身（所指向的变量或对象的地址）的大小（为了完整寻址，32位4字节，64位8字节）</li>
+<li>指针和引用的自增(++)运算意义不一样。指针自增是让其指向下一段内存单元，而引用自增是使其对应的变量自增</li>
+</ul>
+<h6 id="常量引用"><a href="#常量引用" class="headerlink" title="常量引用"></a>常量引用</h6><p>对于第二条，类似<code>int&amp; a = 10;</code>是不行的。也就是引用只能作用于一个变量，不能赋值到字面常量，比如<code>1, 2, 3</code>等字面量，<code>&quot;Hello World&quot;</code>等常量字符串。它们是不可以被修改的，不能使用非const类型的引用传递。</p>
+<p>C++引入了常量引用的概念来处理这种情况。常量引用是“对const的引用”的简称，把它指向的对象看作是常量（不一定真是），不可以通过该引用修改它指向的对象的值。（严格来说不存在常量引用，因为引用不是一个对象，无法让引用本身恒定不变；由第三条，C++不允许随意改变引用绑定的对象，从这种意义上理解，所有引用本身都是常量。）</p>
+<p>在使用上：</p>
+<ul>
+<li><p>指向常量对象时，必须用常量引用</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">const int a &#x3D; 10;
+const int&amp; ra &#x3D; a;	&#x2F;&#x2F; 正确，指向常量对象
+ra &#x3D; 20;	&#x2F;&#x2F; 错误
+int&amp; rb &#x3D; a;	&#x2F;&#x2F; 错误</code></pre>
+</li>
+<li><p>常量引用可以指向非常量对象，但不能修改它的值</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int a &#x3D; 10;
+int&amp; ra &#x3D; a;
+const int&amp; rb &#x3D; a;	&#x2F;&#x2F; 正确
+ra &#x3D; 20;	&#x2F;&#x2F; 正确
+rb &#x3D; 20;	&#x2F;&#x2F; 错误</code></pre>
+</li>
+<li><p>常量引用可以指向字面值、常量字符串、一般表达式等非左值、不能赋值的对象</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int i &#x3D; 10;
+const int&amp; ra &#x3D; i;	&#x2F;&#x2F; 正确
+const int&amp; rb &#x3D; 10;	&#x2F;&#x2F; 正确，普通引用不行
+const int&amp; rc &#x3D; ra * 2;	&#x2F;&#x2F; 正确，普通引用不行</code></pre>
+</li>
+<li><p>实际上，只要被引用的类型能够转换为常量引用的类型即可</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">double dval &#x3D; 3.14;
+const int&amp; pi &#x3D; dval;	&#x2F;&#x2F; 可用</code></pre></li>
+</ul>
+<p>在上面一句引用语句中，编译器实际上相当于执行了以下两条语句：</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">const int temp &#x3D; dval;	&#x2F;&#x2F; 生成一个临时整形常量
+const int&amp; pi &#x3D; temp;	&#x2F;&#x2F; 给常量引用初始化</code></pre>
+
+<p>在这种情况下，常量引用实际上是绑定了一个临时量（temporary）对象。也就是说，允许常量引用指向一个临时量对象。</p>
+<p>假设pi不是常量引用，就允许对它赋值，改变pi所引用的对象的值。但此时绑定的对象是一个临时量而非 dval，不能改变dval的值。在<code>const int&amp; pi = dval</code>中，我们既然想让pi引用dval，就肯定想通过pi改变 dval的值。如此看来，基本上在使用时不会想着把引用绑定到临时量上，C++ 语言也就把这种行为归为非法。</p>
+<p>也就是说，不允许一个普通引用与字面值或者某个表达式的计算结果，或类型不匹配的对象绑定在一起，其实就是不允许一个普通引用指向一个临时变量，只允许将常量引用指向临时对象。</p>
+<h6 id="常量引用传参"><a href="#常量引用传参" class="headerlink" title="常量引用传参"></a>常量引用传参</h6><p>在函数参数中，使用常量引用很重要。因为函数有可能接收临时对象，并且同时要禁止对引用的对象进行修改。</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int test()&#123; return 1; &#125;
+
+void func1(int&amp; x)&#123; std::cout &lt;&lt; x &lt;&lt; std::endl; &#125;
+
+void func2(const int&amp; x)&#123; std::cout &lt;&lt; x &lt;&lt; std::endl; &#125;
+
+int main()
+&#123;
+	int m &#x3D; 1;
+    
+    func1(m);	&#x2F;&#x2F; 正确
+    func1(1);	&#x2F;&#x2F; 错误
+    func1(test());	&#x2F;&#x2F; 错误
+    
+    func2(m);	&#x2F;&#x2F; 正确
+    func2(1);	&#x2F;&#x2F; 正确
+    func2(test());	&#x2F;&#x2F; 正确
+&#125;</code></pre>
+
+<p>日常使用是在写模板的时候，不知道会传入什么类型的模板参数，就必须要让模板适配所有的情况。一个 const T &amp; 就是一种能够承载所有输入类型的办法。但一个 T&amp; 就做不到接收字面量作为参数，字面量无法直接转化为非常量引用。当我们需要constT&amp;或者T&amp;作为返回值的时候，问题会更多。</p>
+<p>本质上也就是const T&amp; 能够承载右值（字面量），而单纯的T&amp;只能承载一个变量的引用，不能存放一个字面量。接下来应该还有一篇：C++ 11的右值引用。</p>
+<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/MacKendy/article/details/123100342">（CSDN）C++之extern</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2227.html">C++ static静态成员变量详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014157109/article/details/115350923">（CSDN）C和C++中const变量内存分配问题详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/shenju_dl_shenghuo/article/details/48241217">（CSDN）const，volatile同时修饰一个变量</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/473730909/answer/2026149928">（知乎）在c++代码中使用const关键字是不是自找麻烦？</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/IT_Quanwudi/article/details/84549968">（CSDN）C++引用传递基础</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39583450/article/details/110006989">（CSDN）C++ 常量引用用法详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/anda0109/article/details/79877899">（CSDN）const、static变量在内存中的位置</a></li>
+</ul>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>miu</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="http://acbgzm.github.io/2022/09/07/ue-2/" title="【我看UE源码】（2）源码阅读支线之如何理解C++的const关键字？">http://acbgzm.github.io/2022/09/07/ue-2/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2023/02/19/summary-2022/" rel="prev" title="低浮上 - 2022年终总结"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">低浮上 - 2022年终总结</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/09/07/ue-1/" rel="next" title="【我看UE源码】（1）从UE4的一处下行Cast，到初步理解C++类型转换"><span class="post-nav-text">【我看UE源码】（1）从UE4的一处下行Cast，到初步理解C++类型转换</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://utteranc.es/client.js" repo="ACBGZM/ACBGZM.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> miu</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>
