@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="miu"><meta name="copyright" content="miu"><meta name="generator" content="Hexo 6.3.0"><meta name="theme" content="hexo-theme-yun"><title>UE5 离线渲染工具架构 &amp; 第三方库调研 | 临时个人主页</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/favicon.ico"><link rel="mask-icon" href="/favicon.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"acbgzm.github.io","root":"/","title":"slowmotion","version":"1.10.9","mode":"time","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="把我在公司组会的分享留个档（2023 年 10 月）。包括 UE Sequencer MRQ（Movie Render Queue）的用法介绍和源码学习，和对第三方图像编码库的调研。另外记录了后续我看的视频领域的基本概念和 FFmpeg 库的使用经验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE5 离线渲染工具架构 &amp; 第三方库调研">
+<meta property="og:url" content="http://acbgzm.github.io/2024/09/15/sharing-1/index.html">
+<meta property="og:site_name" content="临时个人主页">
+<meta property="og:description" content="把我在公司组会的分享留个档（2023 年 10 月）。包括 UE Sequencer MRQ（Movie Render Queue）的用法介绍和源码学习，和对第三方图像编码库的调研。另外记录了后续我看的视频领域的基本概念和 FFmpeg 库的使用经验。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/17.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/18.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/19.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/20.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x1.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/21.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/22.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x5.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x7.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x3.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x8.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x4.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/23.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/24.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/25.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/26.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x10.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/27.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/28.png">
+<meta property="article:published_time" content="2024-09-15T15:15:22.000Z">
+<meta property="article:modified_time" content="2024-09-16T12:45:53.798Z">
+<meta property="article:author" content="miu">
+<meta property="article:tag" content="UnrealEngine">
+<meta property="article:tag" content="游戏开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/17.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="miu"><img width="96" loading="lazy" src="/images/avatar.png" alt="miu"><span class="site-author-status" title="永远相信美好的事情即将发生">🎸</span></a><div class="site-author-name"><a href="/about/">miu</a></div><span class="site-name">临时个人主页</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">19</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/lab" title="lab"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/ACBGZM" title="GitHub" target="_blank" style="color:#181717"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/10388034" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:ACBGZM@126.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:open-arm-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-UE5-%E5%88%B6%E4%BD%9C%E8%A7%86%E9%A2%91"><span class="toc-text">1. 如何使用 UE5 制作视频</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%A9%B1%E5%8A%A8%E6%B8%B8%E6%88%8F%E4%BB%A5%E5%90%88%E9%80%82%E7%9A%84%E6%AD%A5%E9%95%BF%E5%89%8D%E8%BF%9B"><span class="toc-text">2. 驱动游戏以合适的步长前进</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E6%AD%A5%E9%95%BF%E7%9A%84%E8%A6%81%E6%B1%82"><span class="toc-text">对步长的要求</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%81%92%E5%AE%9A"><span class="toc-text">恒定</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%87%86%E7%A1%AE"><span class="toc-text">准确</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%95%BF%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-text">步长的计算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BD%AC%E6%8D%A2%E6%B8%B2%E6%9F%93%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%BE%93%E5%87%BA%E5%88%B0%E7%A3%81%E7%9B%98"><span class="toc-text">3. 转换渲染数据并输出到磁盘</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ImageWriteTask-%E8%B0%83%E5%BA%A6%E5%92%8C%E6%89%A7%E8%A1%8C"><span class="toc-text">ImageWriteTask 调度和执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E9%A2%91%E5%BA%93%E8%B0%83%E7%A0%94"><span class="toc-text">图像频库调研</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-MRQ-%E7%9A%84%E5%85%B6%E4%BB%96%E9%83%A8%E5%88%86"><span class="toc-text">4. MRQ 的其他部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E8%A7%86%E9%A2%91%E5%92%8CFFmpeg"><span class="toc-text">补充：视频和FFmpeg</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#FFmpeg-%E4%BD%BF%E7%94%A8%E7%BB%86%E8%8A%82%E8%AE%B0%E5%BD%95"><span class="toc-text">FFmpeg 使用细节记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E6%89%A9%E5%B1%95"><span class="toc-text">视频相关概念扩展</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://acbgzm.github.io/2024/09/15/sharing-1/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="miu"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="临时个人主页"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">UE5 离线渲染工具架构 &amp; 第三方库调研</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2024-09-15 23:15:22" itemprop="dateCreated datePublished" datetime="2024-09-15T23:15:22+08:00">2024-09-15</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">4.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">15m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E5%88%86%E4%BA%AB/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">分享</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/UnrealEngine/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">UnrealEngine</span></a><a class="tag-item" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">游戏开发</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><blockquote>
+<p>公司里我所在的小组每两周会安排人轮流在组会上进行分享（也没这么规律）。内容以技术为主，比如纯技术，或者比较通用&#x2F;有特色的业务，或者相关的前沿领域（也有讲游戏设计的）。由于没在做什么很通用的模块，对各种东西也没有很硬的了解，我基本上就介绍一下UE的某个业务模块，主要是怎么用，大致思路是什么。</p>
+<p>上班以来我已经做了两次分享了（虽然看人数其实不应该这么频繁），就在这里留个档。当然不会把做的各种资料直接放出来，主要是把提纲整理一下备忘。</p>
+<p>后续如果我有更多的分享也会继续在博客里同步一份。</p>
+</blockquote>
+<p>这段时间我主要在做试用期的大活，就讲了一下调研阶段看的一些东西。由于事先就写了一些调研文档，所以这次分享的内容成型的比较快。</p>
+<p>第一部分是 UE 相关的源码学习，没什么多说的。第二则是图像、视频库（在分享的时候只看了图像库，但后续干活又看了视频库，现在就一起整理一下）。内容涉及一些影视、音视频领域的专业知识。我对各种视频后期软件都基本会用，很早的时候也有一个便宜的单反相机（新鲜劲一过就吃灰了），但对领域专业知识其实没了解过，所以经常看到一些眼熟但又不明所以的概念，挺有意思的。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/17.png" style="zoom: 67%;" / loading="lazy">
+
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/18.png" style="zoom: 67%;" / loading="lazy">
+
+
+
+<p>跟把大象装到冰箱里一样，离线渲染也可以划分为三步走：</p>
+<ul>
+<li>组织场景数据送去渲染</li>
+<li>读回渲染结果</li>
+<li>把渲染数据输出到磁盘上</li>
+</ul>
+<p>如果仅从工具层面上理解 MRQ，不关心 Sequencer 工具（负责把场景组织为用户想在这一帧看到的样子）、渲染模块（负责渲染并提供接口从 GPU 读回渲染结果）的事情，剩下的也是这次分享的主要内容：</p>
+<ul>
+<li>驱动游戏以合适的 delta time 前进，在该渲染的时候进行渲染</li>
+<li>把渲染结果输出到磁盘上</li>
+</ul>
+<p>这也是为什么题目是离线渲染架构，而不是离线渲染本身，因为渲染那块我暂时不需要看（也看不懂）。</p>
+<h4 id="1-如何使用-UE5-制作视频"><a href="#1-如何使用-UE5-制作视频" class="headerlink" title="1. 如何使用 UE5 制作视频"></a>1. 如何使用 UE5 制作视频</h4><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/19.png" style="zoom: 67%;" / loading="lazy">
+
+<p>Movie Render Queue 是 UE5 的高质量离线渲染方案，从 UE 4.25 被引入。</p>
+<p>UE（尤其是 5.0 以后）本身的渲染特性非常强大，MRQ 也支持一些高级的离线渲染设置比如抗锯齿、运动模糊、高分辨率等。现在在视频网站上可以看到很多使用 UE 渲染的片子（比如渲染大赛、PV、广告、MMD之类的），可以说把 UE Sequencer MRQ 加入到离线渲染工作流是现在比较主流的选择了。</p>
+<p>MRQ 其实只能输出图片，用户需要再将图片序列自己合成视频。MRQ 之前的离线渲染框架叫做 Movie Scene Capture，是可以直接输出 .avi 视频的，我看了一下是用的 windows 的 directshow，实在是太古老了。MRQ 顶替掉 MSC 后，UE 的 Sequencer 就不支持直接输出视频了，没做的原因我想可能是因为 FFmpeg 的 license 并不是完全的可发布可商用吧。</p>
+<p>（不过我调研的时候好像看到 experimental 里好像有 UE 准备在做的自己的视频编码工具。其实有点记不清了。）</p>
+<h4 id="2-驱动游戏以合适的步长前进"><a href="#2-驱动游戏以合适的步长前进" class="headerlink" title="2. 驱动游戏以合适的步长前进"></a>2. 驱动游戏以合适的步长前进</h4><h5 id="对步长的要求"><a href="#对步长的要求" class="headerlink" title="对步长的要求"></a>对步长的要求</h5><p>离线渲染跟实时渲染不同，对游戏的 delta time 有两个要求：恒定和准确。</p>
+<h6 id="恒定"><a href="#恒定" class="headerlink" title="恒定"></a>恒定</h6><p>第一，<strong>输出帧之间使用固定的 delta time</strong>，视频跟游戏不同，帧之间必须是固定的步长，要不后期没法做了。</p>
+<p>注意是“输出帧”之间的间隔恒定，而不是“渲染帧”。因为如果使用时序抗锯齿，或者动态模糊等高级设置，每一个输出帧内会进行多次渲染，把多个渲染帧的结果融合为输出帧的结果。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/20.png" style="zoom: 67%;" / loading="lazy">
+
+<p>MRQ 的做法是内部有一个自己的管线 MoviePipeline，在录制的时候会直接接管引擎的 tick 步长的计算。</p>
+<p>Engine tick 开始前，计算这一帧的 delta time，并使用计算出来的 delta time 驱动游戏世界的更新；Engine tick 结束后，将游戏世界送去渲染，读回渲染数据并处理成图片，写入磁盘。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x1.png" style="zoom: 67%;" / loading="lazy">
+
+<h6 id="准确"><a href="#准确" class="headerlink" title="准确"></a>准确</h6><p>第二，<strong>尽量使用准确的时间表示方法</strong></p>
+<p>主要原因是离线渲染很容易让浮点误差快速累积：</p>
+<ul>
+<li>需要支持 23.976 （N 制）这种历史遗留的行业标准帧率，还要跟 24 fps （P 制）区分开</li>
+<li>要支持 240 这种非常高的帧率</li>
+<li>要支持扩展一些时序上的高级离线渲染设置（如动态模糊），把一个输出帧继续分为多个渲染帧</li>
+</ul>
+<p>UE 的做法是在 UE 4.20 引入了时间重构，在 Sequencer 内部引入了 FFrameRate、FFrameTime 两个表示时间的数据结构，使用整数替代一部分浮点数。具体见 <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/AnimatingObjects/Sequencer/TechDocs/TimeRefactorNotes/%E3%80%82">https://docs.unrealengine.com/4.27/zh-CN/AnimatingObjects/Sequencer/TechDocs/TimeRefactorNotes/。</a></p>
+<p>FFrameRate 理解为一个”率“，由除数、被除数两个 int 组成。FFrameTime 理解为一个 ”量“，分为整数部分的 uint + 小数部分的 float。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/21.png" style="zoom: 67%;" / loading="lazy">
+
+
+
+<h5 id="步长的计算"><a href="#步长的计算" class="headerlink" title="步长的计算"></a>步长的计算</h5><p>MRQ 中用于计算步长的数据主要有这几个：</p>
+<ul>
+<li>TickResolution：率，度量每秒有多少个 ticks<ul>
+<li>不再以秒作为时间单位，把每秒拆分为若干个 ticks，TickResolution 就可以度量 level sequence 逻辑上的播放速率</li>
+<li>在 Sequencer 点开 Advanced Options 可以修改 TickResolution ，默认是 24000，可以支持绝大多数的真实影片帧率（23.976 &#x3D; 2400&#x2F;1001，29.97&#x3D;3000&#x2F;1001，24000 是分子的公倍数）</li>
+</ul>
+</li>
+<li>TicksPerOutputFrame：量，度量每个输出帧的 ticks 数<ul>
+<li>根据用户设置的帧率和 Tick Resolution 计算而来</li>
+<li>24 fps（24&#x2F;1）每个输出帧就有 1000 ticks，23.976 fps（24000 &#x2F; 1001） 则是 1001 ticks，这样就很好地区分开了</li>
+</ul>
+</li>
+<li>ShutterAnglePercentage，TicksWhileShutterClosed，TicksWhileShutterOpen：量，用于支持动态模糊<ul>
+<li>可以看影视飓风的科普文章 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/69271958%EF%BC%8C%E4%BA%86%E8%A7%A3%E7%9B%B8%E5%85%B3%E7%9A%84%E5%BD%B1%E8%A7%86%E6%A6%82%E5%BF%B5%EF%BC%8C%E6%96%87%E7%AB%A0%E9%87%8C">https://zhuanlan.zhihu.com/p/69271958，了解相关的影视概念，文章里</a> 270° 快门角度的图画错了，可以看我下面改的</li>
+<li><img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/22.png" style="zoom: 67%;" / loading="lazy"></li>
+<li>引入动态模糊后，把一个输出帧分为镜头开启、镜头关闭两部分，这些变量度量开启、关闭各有多少 ticks</li>
+<li>动态模糊可以在 MRQ 里作为高级离线渲染设置被开启，也可以被场景内的后处理盒子、相机设置开启</li>
+</ul>
+</li>
+<li>TicksPerSample：量，度量每个时间采样的 ticks 数，用于支持时间采样<ul>
+<li>也就是把镜头开启时间再划分为多个时间采样，用来做时间上的抗锯齿</li>
+<li>时间采样在 MRQ 离线渲染设置中进行配置</li>
+</ul>
+</li>
+<li>DeltaFrameTime：量，这一次时间采样的 ticks 数<ul>
+<li>如果不开启时间采样，DeltaFrameTime 其实就是 TicksPerOutputFrame</li>
+<li>如果开启时间采样<ul>
+<li>第一个采样的 DeltaFrameTime 为 TicksWhileShutterClosed + TicksPerSample</li>
+<li>后续的采样的 DeltaFrameTime 为每一采样的 ticks 数，也就是 TicksPerSample</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>一图流：</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x5.png" style="zoom: 67%;" / loading="lazy">
+
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x7.png" style="zoom: 67%;" / loading="lazy">
+
+<p>此外，每个采样会把小数部分累积下来，把整数部分加到每个输出帧的第一个采样中。</p>
+<p>最后会用 DeltaFrameTime 跟 TickResolution 反算回这一次采样的浮点数步长，传给 engine loop。这样使用整数进行中间乱七八糟的计算，很大程度上避免了浮点数在计算、存储上的误差。</p>
+<p>这一部分其实只会介绍 delta time，剩下的都是特定框架下的实现，就不属于此分享里的内容了</p>
+<ul>
+<li>在每个采样时间读回渲染数据</li>
+<li>累积多个采样的渲染结果，生成输出帧数据</li>
+</ul>
+<h4 id="3-转换渲染数据并输出到磁盘"><a href="#3-转换渲染数据并输出到磁盘" class="headerlink" title="3. 转换渲染数据并输出到磁盘"></a>3. 转换渲染数据并输出到磁盘</h4><h5 id="ImageWriteTask-调度和执行"><a href="#ImageWriteTask-调度和执行" class="headerlink" title="ImageWriteTask 调度和执行"></a>ImageWriteTask 调度和执行</h5><p>UE 封装一个 ImageWriteTask 负责从渲染数据到磁盘上的图片之间所有转换工作。每一帧渲染结束后，MoviePipeline 获取这一帧的渲染数据。下一帧渲染开始前，把前一帧的渲染数据组装到 ImageWriteTask。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x3.png" style="zoom: 67%;" / loading="lazy">
+
+<p>这个 Task 会 enqueue 到一个 ImageWriteQueue，然后再加入 UE 的任务系统。具体怎么调度的就不细说了，UE 任务这一块虽然很重要不过我也没仔细去看。只简单跟了一下，做了下面这个图示意一下。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x8.png" style="zoom: 67%;" / loading="lazy">
+
+
+
+<p>ImageWriteTask 执行的时候就会把渲染数据转换为磁盘上的图片文件，主要做这么几件事：</p>
+<ul>
+<li>像素预处理</li>
+<li>使用封装的第三方库进行图像编码</li>
+<li>使用 UE 序列化模块进行存盘</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x4.png" style="zoom: 67%;" / loading="lazy">
+
+<p>像素预处理首先会做 gamma 矫正。我看了一堆资料，说什么的都有。目前我的理解就是为了提高暗部亮度的存储精度。然后就是转换颜色空间到 sRGB。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/23.png" style="zoom: 67%;" / loading="lazy">
+
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/24.png" style="zoom: 67%;" / loading="lazy">
+
+
+
+<h5 id="图像频库调研"><a href="#图像频库调研" class="headerlink" title="图像频库调研"></a>图像频库调研</h5><p>写了使用方法的是我自己用过的。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/25.png" style="zoom: 67%;" / loading="lazy">
+
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/26.png" style="zoom: 67%;" / loading="lazy">
+
+<p>其中 libpng 库可以说是 .png 格式毫无疑问的选择了，实际用的时候在性能上发现了一点问题：</p>
+<p>在缺省情况下，在压缩图片时，libpng 会对图片的每一行都根据某种规则选择五种之一的 filter 进行压缩。</p>
+<p>在一个调研（<a target="_blank" rel="noopener" href="https://github.com/Beep6581/RawTherapee/issues/4045%EF%BC%89%E4%B8%AD%E5%8F%91%E7%8E%B0%EF%BC%8C%E5%9C%A8%E7%BC%96%E7%A0%81%E7%94%9F%E6%88%90%E7%9A%84%E5%9B%BE%E5%83%8F%E8%B4%A8%E9%87%8F/%E4%BD%93%E7%A7%AF%E5%9F%BA%E6%9C%AC%E7%9B%B8%E5%90%8C%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E6%8A%8A">https://github.com/Beep6581/RawTherapee/issues/4045）中发现，在编码生成的图像质量/体积基本相同的情况下，把</a> filter 指定为 <code>PNG_FILTER_PEATH</code>，把 compression strategy 指定为 <code>Z_RLE</code> 算法 。</p>
+<p>UE5 使用 libpng 的过程中没有指定具体的参数，但不知为何编码速度比较快（可能是因为测试的图像内容比较单一，也可能是对库进行了修改，没有细究）。</p>
+<h4 id="4-MRQ-的其他部分"><a href="#4-MRQ-的其他部分" class="headerlink" title="4. MRQ 的其他部分"></a>4. MRQ 的其他部分</h4><p>到此介绍的内容有：</p>
+<ul>
+<li>计算 delta time 并与 engine tick 交互</li>
+<li>创建写图片任务，在任务系统中调度</li>
+<li>执行写图片任务，进行像素预处理、压缩、存盘</li>
+</ul>
+<p>MRQ 真正做的事情比这些要多得多，作为高质量离线渲染解决方案，MRQ 会根据用户的高级设置（抗锯齿、时间&#x2F;空间采样、超分辨率等），自行组织数据送去渲染。</p>
+<p>我们今天只介绍了时序上如何 tick 到一个渲染帧进行渲染。对每个渲染帧，其中也会进行若干次的渲染，结构是这样的：</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">for_loop (tile_y)
+&#123;
+    for_loop (tile_x)
+    &#123;
+        for_loop (spatial_render_samples)
+        &#123;
+            for_loop (render_pass)
+            &#123;
+                render_pass-&gt;RenderSample_GameThread();
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>tile 就是为了支持超分辨率，把一张图片横竖分成很多块分开渲染，再把结果拼起来。此外会对每个空间采样也进行渲染，主要是为了支持抗锯齿（文中只讲了时间采样，其实空间也会采样的）。最后会对每个 render pass 都进行渲染，这个 render pass 就是用户在 MRQ 渲染设置里配置的关于 deferred rendering 的若干选项。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/x10.png" style="zoom: 67%;" / loading="lazy">
+
+
+
+<h4 id="补充：视频和FFmpeg"><a href="#补充：视频和FFmpeg" class="headerlink" title="补充：视频和FFmpeg"></a>补充：视频和FFmpeg</h4><h5 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h5><p>FFmpeg 也是视频领域毫无疑问的选择了（虽然 license 我还没完全看明白怎么回事，暂且先用了）。</p>
+<p>FFmpeg 是一个开源软件项目，由一套用于处理视频、音频和其他多媒体文件和流的库和程序组成，是相关领域最被广泛使用的第三方库。FFmpeg 的绝大多数部分使用 LGPL license，少部分使用 GPL license。</p>
+<p>MP4、AVI、MKV、FLV 等通常说的视频格式可以理解为容器，里面装着各种具体内容。在一些视频相关的资料中，用 “文件格式” 和 “编码格式” 来区分这两个概念。</p>
+<ul>
+<li>AVI 格式是微软在 1992 年提出的封装标准，比较古老，不兼容一些使用现代压缩技术的编码格式</li>
+<li>MPEG-4 Part 14（简称 MP4）是目前最常用的容器格式，可用于存储视频、音频、字幕、静态图像等数据，主要用来封装以 MPEG-4 系列标准编码的视频文件<ul>
+<li>H.264&#x2F;AVC 是 MPEG-4 Part 10，是迄今为止最常用的视频内容录制、压缩和分发格式</li>
+<li>H.265&#x2F;HEVC 是 MPEG-H Part 2，是新兴的高级编码格式，应用也比较广泛。与 AVC 相比，HEVC 在相同的视频质量水平下提高了 25% 到 50% 的数据压缩程度，也就是在相同的比特率下明显提高了视频质量</li>
+</ul>
+</li>
+</ul>
+<p>如 MP4 容器可以装 AVC&#x2F;H.264 或者 HEVC&#x2F;H.265 等编码格式的视频 + AAC 或者 MP3 等编码格式的音频 + 一些编码格式的字幕。不同容器能装的格式有所不同，AVI容器比较古老，装不了 264、265 等较高级格式的视频。</p>
+<p>在视频编码时 FFmpeg 对指定的 .avi 文件会默认推断为使用编码器 <code>AV_CODEC_ID_MPEG4</code>；对于MP4格式，可以指定两种编码器 <code>AV_CODEC_ID_H264</code>、<code>AV_CODEC_ID_HEVC</code> 分别编码 H.264&#x2F;AVC 和 H.265&#x2F;HEVC 的视频。</p>
+<h5 id="FFmpeg-使用细节记录"><a href="#FFmpeg-使用细节记录" class="headerlink" title="FFmpeg 使用细节记录"></a>FFmpeg 使用细节记录</h5><p>在指定开始帧、需要立刻输出到文件的情况下必须把 tune 设置为 “zero-latency”，其中 AVC 格式的对应为 “zerolatency”（没有 ‘-‘）。如果设置为别的选项，编码、输出会延迟，通常用于直播推流等场合。</p>
+<p>参考 FFmpeg 官方的 muxing 示例（<a target="_blank" rel="noopener" href="https://ffmpeg.org/doxygen/5.1/muxing_8c-example.html%EF%BC%89%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%AF%94%E8%BE%83%E6%97%B6%E9%97%B4%E6%88%B3%EF%BC%88%60av_compare_ts()%60%EF%BC%89%E7%9A%84%E6%96%B9%E5%BC%8F%E5%88%A4%E6%96%AD%E5%BD%93%E5%89%8D%E5%86%99%E8%A7%86%E9%A2%91%E6%98%AF%E5%90%A6%E5%BA%94%E8%AF%A5%E7%BB%93%E6%9D%9F%E3%80%82">https://ffmpeg.org/doxygen/5.1/muxing_8c-example.html），使用比较时间戳（`av_compare_ts()`）的方式判断当前写视频是否应该结束。</a></p>
+<p>主要有 -crf 、-preset 两个参数来控制编码视频的画面质量和压缩质量。在这篇文档中，对这两个参数都有所提及：<a target="_blank" rel="noopener" href="https://blog.csdn.net/happydeer/article/details/52610060">https://blog.csdn.net/happydeer/article/details/52610060</a></p>
+<p>crf 参数在使用上的一些共识：</p>
+<ul>
+<li>FFmpeg 不同编码器的 crf 默认值：H.264 是 23，H.265 是 28</li>
+<li>通常认为 &lt;&#x3D;18 就是视觉无损范围</li>
+<li>crf 每相差 6，视频体积约相差一倍</li>
+</ul>
+<p>-preset 用来适配在编码速度和压缩率之间做的不同的权衡。编码速度越慢，压缩比率更高，文件更小。FFmpeg 所有的编码速度选项按降序排列为：ultrafast，superfast，veryfast，faster，fast，medium（缺省），slow，slower，veryslow，placebo。</p>
+<p>很多视频软件都支持了这个配置。</p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/27.png" style="zoom: 67%;" / loading="lazy">
+
+
+
+<h5 id="视频相关概念扩展"><a href="#视频相关概念扩展" class="headerlink" title="视频相关概念扩展"></a>视频相关概念扩展</h5><p>① 转换颜色空间</p>
+<p>视频的像素格式转换过程均为：RGBA-&gt;RGB-&gt;YUV420P。由从GPU读回的RGBA渲染数据，先舍弃A通道，然后转换为视频使用的YUV420P格式（<code>sws_scale()</code>）。</p>
+<p>RGB不利于压缩，YUV引入了亮度概念，认为没必要存储全部颜色信号，而把一些带宽给了人眼敏感度更高的亮度信号。Y指亮度（Luma），U和V指蓝色、红色的色度（Chroma）。</p>
+<p>详见百科：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/YCbCr">https://en.wikipedia.org/wiki/YCbCr</a></p>
+<p>② IBP 帧和 gop size</p>
+<p>详见百科：</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Group_of_pictures">https://en.wikipedia.org/wiki/Group_of_pictures</a></p>
+<img src="https://cdn.jsdelivr.net/gh/ACBGZM/MyPostImage@master/blogimg/sharing/28.png" style="zoom: 50%;" / loading="lazy">
+
+<p>除了对单张图片数据进行了像素上的压缩，视频需要在时间上也进行压缩。目前最主流的方法是使用IBP帧。</p>
+<ul>
+<li>I 帧：intra coded 图像，可以理解为关键帧，具有全部数据，独立进行编码</li>
+<li>P 帧：predictive coded 图像，不存储全部的图片数据，只存储跟其它帧（称为参考帧）的偏移<ul>
+<li>在较旧的设计中，每个 P 帧只能引用一个参考帧，并且该图片在显示顺序和解码顺序上都必须先于 P 帧，并且参考帧必须是 I 或 P 帧。在 AVC 和 HEVC 已经取消了这些限制</li>
+</ul>
+</li>
+<li>B 帧：bipredictive coded 图像，包含相对于先前解码图像的运动补偿差异信息<ul>
+<li>在较旧的设计中，每个 B 帧只能引用显示顺序位于 B 帧前后的 2 帧，并且参考帧必须是 I 或 P 帧。AVC 和 HEVC 已经取消了这些限制</li>
+<li>有时编解码器会使用单向 B 帧。理解为一个没有其他帧依赖于它的 P 帧，它也不使用未来帧的数据 </li>
+<li>B 帧的一个基本属性是它们可以被丢弃而不影响其他帧的正确解码。</li>
+</ul>
+</li>
+</ul>
+<p>一般来说，视频流的 I 帧越多，它的可编辑性就越高，也会增加视频编码所需的比特率。</p>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>miu</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="http://acbgzm.github.io/2024/09/15/sharing-1/" title="UE5 离线渲染工具架构 &amp; 第三方库调研">http://acbgzm.github.io/2024/09/15/sharing-1/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/09/16/sharing-2/" rel="prev" title="现代 AI 基础和游戏引擎中的支持"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">现代 AI 基础和游戏引擎中的支持</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/02/15/summary-2023/" rel="next" title="不得安宁 - 2023年终总结"><span class="post-nav-text">不得安宁 - 2023年终总结</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://utteranc.es/client.js" repo="ACBGZM/ACBGZM.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> miu</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>
